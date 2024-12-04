@@ -51,7 +51,7 @@ _fetch_iconArt() {
 
     # FEGBA-Sprites-illus_Fp
     #_messagePlain_request https://civitai.com/models/949388/fire-emblem-gba-sprite-style-illustrious?modelVersionId=1062945
-    ! _wget_githubRelease "mirage335-special/iconArt_bundle" "" "FEGBA-Sprites-illus_Fp.safetensors" && _messageFAIL && _messageFAIL
+    ! _wget_githubRelease "mirage335-special/iconArt_bundle" "" "FEGBA-Sprites-illus_Fp.safetensors" && _messageFAIL
 
 
     cksum ./*
