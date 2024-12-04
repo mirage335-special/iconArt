@@ -1,0 +1,4 @@
+
+Augment LLM model should be able to use this prompt to generate some ideas of terms to use to generate ClipArt, icons, etc, from suitable Stable Diffusion, Danbooru, etc, image generation AI models. Historically, ChatGPT has done very poorly at icon generation.
+
+Trying to use Stable Diffusion generate <EITHER clip art OR icons> of an <INSERT_DETAILED_DESCRIPTION_HERE>, the kind that had <INSERT_DETAILED_DESCRIPTION_HERE> adjacent/above/etc <INSERT_DETAILED_DESCRIPTION_HERE>. The phrases '<INSERT_EXAMPLE_HERE>', '<INSERT_EXAMPLE_HERE>', are getting close to correct results, but more common phrases for this <INSERT_DESCRIPTION_HERE> style of computer should help generate more correct results so I can select an image that works for my purposes...

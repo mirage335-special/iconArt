@@ -1,0 +1,65 @@
+POSITIVE:
+
+sfw, rating_safe,
+
+
+anime, source_anime, masterpiece, best quality,
+
+
+logo, emblem, fire emblem, sprite, pixel_art, pixel_art_inset,
+pixel art,
+
+
+novel_illustration, clipart, clip art,
+solo,
+
+
+full body,
+
+
+<lora:FEGBA-Sprites-illus_Fp:0.4>,
+<lora:FEGBA-Sprites-illus_Fp:1>,
+
+
+huge
+gigantic
+giant
+
+
+<OBJECTS>, <OBJECTS>,
+
+simple_background, 2d, no_humans,
+
+
+
+NEGATIVE:
+
+score_1, score_2, 1boy, 1girl, blurred, unfocused,
+
+
+watermark,
+
+
+text,
+
+
+weights, writing,
+
+
+bad quality, grainy,
+
+
+worst quality, human,
+
+
+frame,
+
+
+cropped, duplicate,
+
+
+noisy, blurry, low contrast,
+
+
+
+

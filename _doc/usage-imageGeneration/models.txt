@@ -1,0 +1,25 @@
+
+noobaiXLNAIXL_epsilonPred05Version, Version: f2.0.1v1.10.1-previous-501-g668e87f9
+animagineXLV31_v31, Version: f2.0.1v1.10.1-previous-501-g668e87f9, Model hash: cedf157a80
+illustriousXL_v01, Version: f2.0.1v1.10.1-previous-501-g668e87f9
+sd_xl_base_1.0, Version: f2.0.1v1.10.1-previous-501-g668e87f9
+FEGBA-Sprites-illus_Fp
+
+License terms (if any, and if valid to add license terms to output) added by these (derivative) models, do not prohibit publication. At the most restrictive, the 'noobai' model limits commercialization of 'model-generated products'. By the broadest interpretation, that would still permit including output images with 'public domain', 'CC0', etc, source code, etc. By the narrowest interpration, the 'monetization' of 'model-generated products' could be reasonably interpreted to refer to the monetization of the images themselves, not the monetization of a work the images are included with, and careful study might allow compatibility with GPLv3 copyleft.
+
+In any case, you have two practical options:
+1) Not bother with copyleft (ie. GPLv3). Rapid improvements in the rate of technological development (ie. the use of Generative AI to create new software and hardware designs) has reduced the usefulness of copyleft on newer smaller projects (ie. other than Linux kernel) to the point it is usually fine to do without.
+2) Avoid 'noobai', using 'animagine', and possibly the 'FEGBA-Sprites-illus_Fp' LORA . Licensing terms (if not absent), should be less restrictive.
+
+
+https://civitai.com/models/833294/noobai-xl-nai-xl?modelVersionId=968495
+-
+https://huggingface.co/OnomaAIResearch/Illustrious-xl-early-release-v0
+https://freedevproject.org/faipl-1.0-sd/
+
+https://civitai.com/models/949388/fire-emblem-gba-sprite-style-illustrious?modelVersionId=1062945
+
+https://huggingface.co/cagliostrolab/animagine-xl-3.1
+
+
+https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/raw/main/LICENSE.md

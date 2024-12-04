@@ -2,3 +2,9 @@
 	path = _lib/ubiquitous_bash
 	url = git@github.com:mirage335-colossus/ubiquitous_bash.git
 	shallow = true
+[submodule "_lib/stable-diffusion-webui-forge-lllyasviel"]
+	path = _lib/stable-diffusion-webui-forge-lllyasviel
+	url = git@github.com:lllyasviel/stable-diffusion-webui-forge.git
+[submodule "_lib/stable-diffusion-webui-reForge-Panchovix"]
+	path = _lib/stable-diffusion-webui-reForge-Panchovix
+	url = git@github.com:Panchovix/stable-diffusion-webui-reForge.git

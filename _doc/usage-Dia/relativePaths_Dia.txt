@@ -1,0 +1,12 @@
+
+Relative paths can be used with Dia, including with MSWindows .
+
+When this is done correctly, a new Dia file saved with compression disabled will have a similar line to this in the XML:
+<dia:string>#./image.jpg#</dia:string>
+
+
+
+
+
+https://mail.gnome.org/archives/dia-list/2010-December/msg00030.html
+
