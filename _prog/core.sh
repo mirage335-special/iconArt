@@ -6,6 +6,8 @@ _aria2c_iconArt() {
 
 
 _fetch_iconArt() {
+    _messageNormal '_fetch_iconArt'
+    
     local functionEntryPWD="$PWD"
     functionEntryPWD="$PWD"
 
