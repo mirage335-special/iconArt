@@ -395,106 +395,13 @@ jobs:
 
 
 
-      # ATTRIBUTION-AI: CHatGPT o1-preview 2024-12-05
-      - name: Release files
-        shell: pwsh
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          $ErrorActionPreference = "Stop"
-          $token = $env:GITHUB_TOKEN
-          $repo = "${{ github.repository }}"
-          $tag = "v1.0.0"  # Adjust the tag as needed
-          $releaseName = "Release $tag"
-
-          # Function to get the release by tag
-          function Get-ReleaseByTag($repo, $tag, $token) {
-              $url = "https://api.github.com/repos/$repo/releases/tags/$tag"
-              try {
-                  $response = Invoke-RestMethod -Method Get -Uri $url -Headers @{
-                      Authorization = "token $token"
-                      Accept        = "application/vnd.github.v3+json"
-                  }
-                  return $response
-              }
-              catch {
-                  return $null
-              }
-          }
-
-          # Check if the release already exists
-          $release = Get-ReleaseByTag -repo $repo -tag $tag -token $token
-
-          if (-not $release) {
-              Write-Host "Release with tag $tag does not exist. Creating a new release."
-
-              # Create a new release
-              $body = @{
-                  tag_name   = $tag
-                  name       = $releaseName
-                  draft      = $false
-                  prerelease = $false
-              } | ConvertTo-Json
-
-              $release = Invoke-RestMethod -Method Post -Uri "https://api.github.com/repos/$repo/releases" -Headers @{
-                  Authorization = "token $token"
-                  "Content-Type" = "application/json"
-                  Accept         = "application/vnd.github.v3+json"
-              } -Body $body
-          }
-          else {
-              Write-Host "Release with tag $tag already exists. Using the existing release."
-          }
-
-          # Extract the upload URL
-          $uploadUrlTemplate = $release.upload_url
-          Write-Host "Original upload_url from API: $uploadUrlTemplate"
-
-          # Remove templated query parameters
-          $uploadUrl = $uploadUrlTemplate -replace "\{.*\}", ""
-          Write-Host "Processed upload URL: $uploadUrl"
-
-          # Get the list of existing assets
-          $existingAssets = Invoke-RestMethod -Method Get -Uri $release.assets_url -Headers @{
-              Authorization = "token $token"
-              Accept        = "application/vnd.github.v3+json"
-          }
-
-          # Collect the names of files to upload
-          $filesToUpload = Get-ChildItem -Path "./_bundle/webui_forge_cu121_torch231.7z.part*"
-
-          # Delete existing assets that match the files to upload
-          foreach ($file in $filesToUpload) {
-              $existingAsset = $existingAssets | Where-Object { $_.name -eq $file.Name }
-              if ($existingAsset) {
-                  Write-Host "Deleting existing asset: $($existingAsset.name)"
-                  Invoke-RestMethod -Method Delete -Uri $existingAsset.url -Headers @{
-                      Authorization = "token $token"
-                      Accept        = "application/vnd.github.v3+json"
-                  }
-              }
-          }
-
-          # Upload each file
-          foreach ($file in $filesToUpload) {
-              $fileName = $file.Name
-              $filePath = $file.FullName
-              $fileNameEncoded = [System.Uri]::EscapeDataString($fileName)
-              $assetUrl = "$uploadUrl?name=$fileNameEncoded"
-
-              Write-Host "Uploading $fileName to $assetUrl"
-
-              Invoke-RestMethod -Method Post -Uri $assetUrl -Headers @{
-                  Authorization = "token $token"
-                  "Content-Type" = "application/octet-stream"
-                  Accept         = "application/vnd.github.v3+json"
-              } -InFile $filePath -UseBasicParsing
-          }
-
-
-
-
-
+      - name: release! files
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: build-${{ github.run_id }}-${{ github.run_attempt }}
+          name: build
+          files: |
+            ./_bundle/webui_forge_cu121_torch231.7z.part*
 
 
 
