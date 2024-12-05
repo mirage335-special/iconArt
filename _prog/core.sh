@@ -1,6 +1,7 @@
 ##### Core
 
 
+
 _fetch_iconArt_forge() {
     # Latest releases include MSWindows support and an installation of A1111/Forge for MSWindows .
     # WARNING: May be necessary to run 'update.bat' and 'run.bat' .
@@ -109,6 +110,21 @@ _join_file_iconArt() {
 }
 _aria2c_iconArt() {
     aria2c --log=- --log-level=info -x "3" -o "$2" "$1"
+}
+
+_release_split_iconArt() {
+    #gh release create build-${{ github.run_id }}-${{ github.run_attempt }} --title build --notes ""
+
+    local currentFile
+    for currentFile in "$1".part*
+    do
+        "$scriptAbsoluteLocation" _stopwatch gh release upload build-${{ github.run_id }}-${{ github.run_attempt }} "$currentFile" &
+        while [[ $(jobs | wc -l) -ge 12 ]]
+        do
+            sleep 2
+        done
+    done
+    wait
 }
 
 

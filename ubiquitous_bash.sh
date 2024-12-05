@@ -36,7 +36,7 @@ _ub_cksum_special_derivativeScripts_contents() {
 #export ub_setScriptChecksum_disable='true'
 ( [[ -e "$0".nck ]] || [[ "${BASH_SOURCE[0]}" != "${0}" ]] || [[ "$1" == '--profile' ]] || [[ "$1" == '--script' ]] || [[ "$1" == '--call' ]] || [[ "$1" == '--return' ]] || [[ "$1" == '--devenv' ]] || [[ "$1" == '--shell' ]] || [[ "$1" == '--bypass' ]] || [[ "$1" == '--parent' ]] || [[ "$1" == '--embed' ]] || [[ "$1" == '--compressed' ]] || [[ "$0" == "/bin/bash" ]] || [[ "$0" == "-bash" ]] || [[ "$0" == "/usr/bin/bash" ]] || [[ "$0" == "bash" ]] ) && export ub_setScriptChecksum_disable='true'
 export ub_setScriptChecksum_header='2591634041'
-export ub_setScriptChecksum_contents='3365256043'
+export ub_setScriptChecksum_contents='3764556048'
 
 # CAUTION: Symlinks may cause problems. Disable this test for such cases if necessary.
 # WARNING: Performance may be crucial here.
@@ -46187,6 +46187,7 @@ _package() {
 ##### Core
 
 
+
 _fetch_iconArt_forge() {
     # Latest releases include MSWindows support and an installation of A1111/Forge for MSWindows .
     # WARNING: May be necessary to run 'update.bat' and 'run.bat' .
@@ -46295,6 +46296,21 @@ _join_file_iconArt() {
 }
 _aria2c_iconArt() {
     aria2c --log=- --log-level=info -x "3" -o "$2" "$1"
+}
+
+_release_split_iconArt() {
+    #gh release create build-${{ github.run_id }}-${{ github.run_attempt }} --title build --notes ""
+
+    local currentFile
+    for currentFile in "$1".part*
+    do
+        "$scriptAbsoluteLocation" _stopwatch gh release upload build-${{ github.run_id }}-${{ github.run_attempt }} "$currentFile" &
+        while [[ $(jobs | wc -l) -ge 12 ]]
+        do
+            sleep 2
+        done
+    done
+    wait
 }
 
 
