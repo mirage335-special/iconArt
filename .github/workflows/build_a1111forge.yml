@@ -230,17 +230,17 @@ jobs:
               }
 
               # Read standard output
-              if (-not $process.StandardOutput.EndOfStream) {
-                  $output = $process.StandardOutput.ReadLine()
-                  Write-Host $output
-                  $output | Out-File -FilePath $logFile -Append
+              while (-not $process.StandardOutput.EndOfStream) {
+                  $outputLine = $process.StandardOutput.ReadLine()
+                  Write-Host $outputLine
+                  $outputLine | Out-File -FilePath $logFile -Append
               }
 
               # Read standard error
-              if (-not $process.StandardError.EndOfStream) {
-                  $error = $process.StandardError.ReadLine()
-                  Write-Host $error
-                  $error | Out-File -FilePath $logFile -Append
+              while (-not $process.StandardError.EndOfStream) {
+                  $errorLine = $process.StandardError.ReadLine()
+                  Write-Host $errorLine
+                  $errorLine | Out-File -FilePath $logFile -Append
               }
 
               Start-Sleep -Milliseconds 100
@@ -248,18 +248,19 @@ jobs:
 
           # Capture any remaining output after the process exits
           while (-not $process.StandardOutput.EndOfStream) {
-              $output = $process.StandardOutput.ReadLine()
-              Write-Host $output
-              $output | Out-File -FilePath $logFile -Append
+              $outputLine = $process.StandardOutput.ReadLine()
+              Write-Host $outputLine
+              $outputLine | Out-File -FilePath $logFile -Append
           }
 
           while (-not $process.StandardError.EndOfStream) {
-              $error = $process.StandardError.ReadLine()
-              Write-Host $error
-              $error | Out-File -FilePath $logFile -Append
+              $errorLine = $process.StandardError.ReadLine()
+              Write-Host $errorLine
+              $errorLine | Out-File -FilePath $logFile -Append
           }
 
           $process.Dispose()
+
 
 
       # ATTRIBUTION-AI: Llama-augment 2024-12-05 . (just the 7z command)
