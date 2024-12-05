@@ -1,6 +1,8 @@
 
 name: build_a1111forge
 
+# ATTRIBUTION-AI: Much of this file is either written by an AI LLM model, or derives from a similar file also largely written by an AI LLM model.
+
 
 # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#permissions
 permissions:
@@ -106,6 +108,7 @@ jobs:
           Get-CimInstance -ClassName Win32_LogicalDisk | Select-Object -Property DeviceID,@{'Name' = 'FreeSpace (GB)'
           Expression= { [int]($_.FreeSpace / 1GB) }}
 
+      # ATTRIBUTION-AI: ChatGPT o1-preview 2024-12-05 .
       - name: fetch
         shell: pwsh
         timeout-minutes: 240
@@ -133,6 +136,7 @@ jobs:
           #echo true | Out-Null
           #}
 
+      # ATTRIBUTION-AI: Llama-augment 2024-12-05 . (just the 7z command)
       - name: extract
         shell: pwsh
         timeout-minutes: 240
@@ -151,16 +155,114 @@ jobs:
           git -C "webui" reset --hard
           git -C "webui" pull
     
-      - name: run
-        shell: cmd
-        timeout-minutes: 10
+      #- name: run
+        #shell: cmd
+        #timeout-minutes: 10
+        #continue-on-error: true
+        #run: |
+          #cd ./_bundle/webui_forge_cu121_torch231
+          #call environment.bat
+          #cd webui
+          #call webui-user.bat | tee /run.log
+      
+      # ATTRIBUTION-AI: ChatGPT o1-preview 2024-12-05 .
+      #- name: run_timeout
+        #shell: pwsh
+        #continue-on-error: true
+        #run: |
+          #$commands = @"
+          #cd ./_bundle/webui_forge_cu121_torch231
+          #call environment.bat
+          #cd webui
+          #call webui-user.bat
+          #"@
+          #Set-Content -Path 'script.bat' -Value $commands
+
+          #$process = Start-Process -FilePath 'cmd.exe' -ArgumentList '/c', 'script.bat' -PassThru
+          #if (Wait-Process -Id $process.Id -Timeout 600) {
+              #Write-Host "Process completed within the timeout."
+          #} else {
+              #Write-Host "Timeout occurred. Terminating the process."
+              #Stop-Process -Id $process.Id -Force
+              #throw "Process terminated after exceeding the 10-minute timeout."
+          #}
+
+      # ATTRIBUTION-AI: ChatGPT o1-preview 2024-12-05 .
+      - name: run_timeout_log
+        shell: pwsh
         continue-on-error: true
         run: |
+          # Define the batch commands
+          $commands = @"
           cd ./_bundle/webui_forge_cu121_torch231
           call environment.bat
           cd webui
-          call webui-user.bat  | tee /run.log
+          call webui-user.bat
+          "@
+          # Write the commands to a batch file
+          Set-Content -Path 'script.bat' -Value $commands
 
+          # Define the timeout in seconds (600 seconds = 10 minutes)
+          $timeoutSeconds = 600
+
+          # Start the process with output redirection
+          $startInfo = New-Object System.Diagnostics.ProcessStartInfo
+          $startInfo.FileName = 'cmd.exe'
+          $startInfo.Arguments = '/c script.bat'
+          $startInfo.RedirectStandardOutput = $true
+          $startInfo.RedirectStandardError = $true
+          $startInfo.UseShellExecute = $false
+          $startInfo.CreateNoWindow = $true
+
+          $process = New-Object System.Diagnostics.Process
+          $process.StartInfo = $startInfo
+          $process.Start() | Out-Null
+
+          $logFile = 'run.log'
+          $sw = [System.Diagnostics.Stopwatch]::StartNew()
+
+          # Read and log output in real-time
+          while (-not $process.HasExited) {
+              if ($sw.Elapsed.TotalSeconds -ge $timeoutSeconds) {
+                  Write-Host "Timeout occurred. Terminating the process."
+                  $process.Kill()
+                  throw "Process terminated after exceeding the 10-minute timeout."
+              }
+
+              # Read standard output
+              if (-not $process.StandardOutput.EndOfStream) {
+                  $output = $process.StandardOutput.ReadLine()
+                  Write-Host $output
+                  $output | Out-File -FilePath $logFile -Append
+              }
+
+              # Read standard error
+              if (-not $process.StandardError.EndOfStream) {
+                  $error = $process.StandardError.ReadLine()
+                  Write-Host $error
+                  $error | Out-File -FilePath $logFile -Append
+              }
+
+              Start-Sleep -Milliseconds 100
+          }
+
+          # Capture any remaining output after the process exits
+          while (-not $process.StandardOutput.EndOfStream) {
+              $output = $process.StandardOutput.ReadLine()
+              Write-Host $output
+              $output | Out-File -FilePath $logFile -Append
+          }
+
+          while (-not $process.StandardError.EndOfStream) {
+              $error = $process.StandardError.ReadLine()
+              Write-Host $error
+              $error | Out-File -FilePath $logFile -Append
+          }
+
+          $process.Dispose()
+
+
+      # ATTRIBUTION-AI: Llama-augment 2024-12-05 . (just the 7z command)
       - name: compress
         shell: pwsh
         timeout-minutes: 240
