@@ -112,6 +112,7 @@ _aria2c_iconArt() {
     aria2c --log=- --log-level=info -x "3" -o "$2" "$1"
 }
 
+# WARNING: Do NOT use. Apparently 'gh', while normally available on other ubcp/Cygwin/MSW systems, is not available this way under GitHub Actions MSWindows Runners.
 _release_split_iconArt() {
     #gh release create build-${{ github.run_id }}-${{ github.run_attempt }} --title build --notes ""
 

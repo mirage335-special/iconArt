@@ -98,7 +98,7 @@ jobs:
           git config --global core.eol lf
           choco install 7zip.install -y
           #choco install rclone -y
-          choco install gh
+          #choco install gh
       - uses: actions/checkout@v2
       - name: statement! ls
         #if: ${{ github.event.inputs.skimfast != 'true' }}
@@ -300,58 +300,144 @@ jobs:
 
 
 
-      - name: _getCore_ubcp-extendedInterface
-        shell: pwsh
-        timeout-minutes: 180
-        run: |
-          #mkdir /
-          cd /
-          #Invoke-WebRequest -Uri (((Invoke-RestMethod -Uri "https://api.github.com/repos/mirage335-colossus/extendedInterface/releases") | Where-Object { $_.name -eq "internal" } | ForEach-Object { $_.assets } | Where-Object {$_.name -eq "extIface.exe"} | Sort-Object -Property {$_.browser_download_url -replace '\D+(\d+)-\d+$', '$1'} -Descending | Select-Object -First 1).browser_download_url) -OutFile ./extIface.exe
-          Invoke-WebRequest -Uri (((Invoke-RestMethod -Uri "https://api.github.com/repos/mirage335-colossus/extendedInterface/releases" -Headers @{Authorization = "Bearer ${{ secrets.GITHUB_TOKEN }}" }) | Where-Object { $_.name -eq "internal" } | ForEach-Object { $_.assets } | Where-Object {$_.name -eq "extIface.exe"} | Sort-Object -Property {$_.browser_download_url -replace '\D+(\d+)-\d+$', '$1'} -Descending | Select-Object -First 1).browser_download_url) -OutFile ./extIface.exe
-          #start "Installer" /wait "extIface" /S
-          Start-Process -FilePath ".\extIface.exe" -ArgumentList "/wait", ".\extIface.exe", "/S" -NoNewWindow -Wait
-          rm ./extIface.exe
+      #- name: _getCore_ubcp-extendedInterface
+        #shell: pwsh
+        #timeout-minutes: 180
+        #run: |
+          ##mkdir /
+          #cd /
+          ##Invoke-WebRequest -Uri (((Invoke-RestMethod -Uri "https://api.github.com/repos/mirage335-colossus/extendedInterface/releases") | Where-Object { $_.name -eq "internal" } | ForEach-Object { $_.assets } | Where-Object {$_.name -eq "extIface.exe"} | Sort-Object -Property {$_.browser_download_url -replace '\D+(\d+)-\d+$', '$1'} -Descending | Select-Object -First 1).browser_download_url) -OutFile ./extIface.exe
+          #Invoke-WebRequest -Uri (((Invoke-RestMethod -Uri "https://api.github.com/repos/mirage335-colossus/extendedInterface/releases" -Headers @{Authorization = "Bearer ${{ secrets.GITHUB_TOKEN }}" }) | Where-Object { $_.name -eq "internal" } | ForEach-Object { $_.assets } | Where-Object {$_.name -eq "extIface.exe"} | Sort-Object -Property {$_.browser_download_url -replace '\D+(\d+)-\d+$', '$1'} -Descending | Select-Object -First 1).browser_download_url) -OutFile ./extIface.exe
+          ##start "Installer" /wait "extIface" /S
+          #Start-Process -FilePath ".\extIface.exe" -ArgumentList "/wait", ".\extIface.exe", "/S" -NoNewWindow -Wait
+          #rm ./extIface.exe
+
+
+
+      #- name: split
+        #shell: pwsh
+        #timeout-minutes: 240
+        #run: |
+          ##Set-Item -Path Env:devfast -Value ("true")
+          ##cd C:\core\infrastructure\ubiquitous_bash\
+          ##cd ./_local/ubcp
+          #cd ./
+          #./_bin _split_file_iconArt "./_bundle/webui_forge_cu121_torch231.7z" | tee /split.log
+          #$SEL = cat /split.log | Select-String -Pattern 'FAIL' -CaseSensitive -SimpleMatch
+          #if ($SEL -ne $null)
+          #{
+          #cat /bin/false/pwsh
+          #}
+          #else
+          #{
+          #echo true | Out-Null
+          #}
+
+
 
 
 
       - name: split
         shell: pwsh
-        timeout-minutes: 240
         run: |
-          #Set-Item -Path Env:devfast -Value ("true")
-          #cd C:\core\infrastructure\ubiquitous_bash\
-          #cd ./_local/ubcp
-          cd ./
-          ./_bin _split_file_iconArt "./_bundle/webui_forge_cu121_torch231.7z" | tee /split.log
-          $SEL = cat /split.log | Select-String -Pattern 'FAIL' -CaseSensitive -SimpleMatch
-          if ($SEL -ne $null)
-          {
-          cat /bin/false/pwsh
-          }
-          else
-          {
-          echo true | Out-Null
+          $file = './_bundle/webui_forge_cu121_torch231.7z'
+          $chunkSize = 1856000000
+
+          for ($currentIteration = 0; $currentIteration -le 24; $currentIteration++) {
+              $currentIterationString = "{0:D2}" -f $currentIteration
+              if ((Test-Path $file) -and ((Get-Item $file).Length -gt 0)) {
+                  $fileSize = (Get-Item $file).Length
+                  $readSize = [Math]::Min($chunkSize, $fileSize)
+
+                  # Open the file and read the last $readSize bytes
+                  $fs = [System.IO.File]::Open($file, [System.IO.FileMode]::Open, [System.IO.FileAccess]::Read)
+                  $fs.Position = $fileSize - $readSize
+                  $buffer = New-Object byte[] $readSize
+                  $fs.Read($buffer, 0, $readSize)
+                  $fs.Close()
+
+                  # Write to the new part file
+                  $partFile = "$file.part$currentIterationString"
+                  [System.IO.File]::WriteAllBytes($partFile, $buffer)
+
+                  # Truncate the original file
+                  $fs = [System.IO.File]::Open($file, [System.IO.FileMode]::Open, [System.IO.FileAccess]::Write)
+                  $fs.SetLength($fileSize - $readSize)
+                  $fs.Close()
+              }
           }
 
+
+
+
+
+
+      #- name: release
+        #shell: pwsh
+        #timeout-minutes: 240
+        #run: |
+          ##Set-Item -Path Env:devfast -Value ("true")
+          ##cd C:\core\infrastructure\ubiquitous_bash\
+          ##cd ./_local/ubcp
+          #cd ./
+          #./_bin _release_split_iconArt "./_bundle/webui_forge_cu121_torch231.7z" build-${{ github.run_id }}-${{ github.run_attempt }} | tee /release.log
+          #$SEL = cat /release.log | Select-String -Pattern 'FAIL' -CaseSensitive -SimpleMatch
+          #if ($SEL -ne $null)
+          #{
+          #cat /bin/false/pwsh
+          #}
+          #else
+          #{
+          #echo true | Out-Null
+          #}
+        #env:
+          #GH_TOKEN: ${{ github.token }}
+
+
+
+      # ATTRIBUTION-AI: CHatGPT o1-preview 2024-12-05
       - name: release
         shell: pwsh
-        timeout-minutes: 240
-        run: |
-          #Set-Item -Path Env:devfast -Value ("true")
-          #cd C:\core\infrastructure\ubiquitous_bash\
-          #cd ./_local/ubcp
-          cd ./
-          ./_bin _release_split_iconArt "./_bundle/webui_forge_cu121_torch231.7z" build-${{ github.run_id }}-${{ github.run_attempt }} | tee /release.log
-          $SEL = cat /release.log | Select-String -Pattern 'FAIL' -CaseSensitive -SimpleMatch
-          if ($SEL -ne $null)
-          {
-          cat /bin/false/pwsh
-          }
-          else
-          {
-          echo true | Out-Null
-          }
         env:
-          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $ErrorActionPreference = "Stop"
+          $token = $env:GITHUB_TOKEN
+          $repo = "${{ github.repository }}"
+          $tag = "v1.0.0"  # Adjust the tag as needed
+          $releaseName = "Release $tag"
+
+          # Create a new release
+          $body = @{
+              tag_name = $tag
+              name = $releaseName
+              draft = $false
+              prerelease = $false
+          } | ConvertTo-Json
+
+          $response = Invoke-RestMethod -Method Post -Uri "https://api.github.com/repos/$repo/releases" -Headers @{
+              Authorization = "token $token"
+              "Content-Type"  = "application/json"
+              Accept          = "application/vnd.github.v3+json"
+          } -Body $body
+
+          $uploadUrl = $response.upload_url -replace "{.*}", ""
+
+          # Upload each file matching the glob pattern
+          Get-ChildItem -Path "./_bundle/webui_forge_cu121_torch231.7z.part*" | ForEach-Object {
+              $fileName = $_.Name
+              $filePath = $_.FullName
+              $assetUrl = "$uploadUrl?name=$fileName"
+
+              Invoke-RestMethod -Method Post -Uri $assetUrl -Headers @{
+                  Authorization = "token $token"
+                  "Content-Type"  = "application/octet-stream"
+                  Accept          = "application/vnd.github.v3+json"
+              } -InFile $filePath -UseBasicParsing
+          }
+
+
+
+
 
 
