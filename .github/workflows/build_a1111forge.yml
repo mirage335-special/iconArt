@@ -62,19 +62,25 @@ jobs:
     #needs: [build_guard, build_compressed]
     runs-on: ${{ github.event.inputs.runnerNameMSW == '' && 'windows-latest' || github.event.inputs.runnerNameMSW }}
     steps:
+      
+      # ATTRIBUTION-AI: ChatGPT o1-preview 2024-12-05 .
       - name: Install PowerShell
         shell: cmd
         run: |
           curl -L -o pwsh.zip https://github.com/PowerShell/PowerShell/releases/download/v7.2.6/PowerShell-7.2.6-win-x64.zip
           mkdir C:\pwsh
-          powershell -Command "Expand-Archive -Path pwsh.zip -DestinationPath C:\pwsh"
-          move C:\pwsh\PowerShell-7.2.6-win-x64\* C:\pwsh\
-          rmdir /S /Q C:\pwsh\PowerShell-7.2.6-win-x64
+          tar -xf pwsh.zip -C C:\pwsh
+          #powershell -Command "Expand-Archive -Path pwsh.zip -DestinationPath C:\pwsh"
+          #move C:\pwsh\PowerShell-7.2.6-win-x64\* C:\pwsh\
+          #rmdir /S /Q C:\pwsh\PowerShell-7.2.6-win-x64
+          set PATH=C:\pwsh;%PATH%
           echo C:\pwsh >> %GITHUB_PATH%
 
       - name: Verify pwsh.exe Location
         shell: cmd
         run: |
+          dir C:\
+          dir C:\pwsh
           dir C:\pwsh\pwsh.exe
 
       - name: Build with PowerShell
