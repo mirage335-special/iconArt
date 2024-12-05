@@ -110,7 +110,7 @@ jobs:
         shell: pwsh
         timeout-minutes: 240
         run: |
-          mkdir ./_bundle
+          #mkdir ./_bundle
           cd ./_bundle
           Invoke-WebRequest -Uri "https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z" -OutFile "webui_forge_cu121_torch231.7z"
 
