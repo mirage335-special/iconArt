@@ -114,4 +114,6 @@ _aria2c_iconArt() {
 _refresh_anchors() {
     cp -a "$scriptAbsoluteFolder"/_anchor "$scriptAbsoluteFolder"/_fetch_iconArt
     cp -a "$scriptAbsoluteFolder"/_anchor.bat "$scriptAbsoluteFolder"/_fetch_iconArt.bat
+
+    cp -a "$scriptAbsoluteFolder"/_anchor.bat "$scriptAbsoluteFolder"/_bin.bat
 }

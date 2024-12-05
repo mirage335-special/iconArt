@@ -19,12 +19,6 @@ permissions:
 on:
   workflow_dispatch:
     inputs:
-      devfast:
-        type: boolean
-        default: true
-      skimfast:
-        type: boolean
-        default: true
       runnerNameMSW:
         required: false
         default: windows-latest
@@ -103,7 +97,7 @@ jobs:
           #choco install rclone -y
       - uses: actions/checkout@v2
       - name: statement! ls
-        if: ${{ github.event.inputs.skimfast != 'true' }}
+        #if: ${{ github.event.inputs.skimfast != 'true' }}
         shell: pwsh
         run: |
           ls /
@@ -134,7 +128,7 @@ jobs:
 
 
       - name: statement! ls
-        if: ${{ github.event.inputs.skimfast != 'true' }}
+        #if: ${{ github.event.inputs.skimfast != 'true' }}
         shell: pwsh
         run: |
           ls /
