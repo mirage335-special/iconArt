@@ -118,7 +118,7 @@ _release_split_iconArt() {
     local currentFile
     for currentFile in "$1".part*
     do
-        "$scriptAbsoluteLocation" _stopwatch gh release upload build-${{ github.run_id }}-${{ github.run_attempt }} "$currentFile" &
+        "$scriptAbsoluteLocation" _stopwatch gh release upload "$2" "$currentFile" &
         while [[ $(jobs | wc -l) -ge 12 ]]
         do
             sleep 2

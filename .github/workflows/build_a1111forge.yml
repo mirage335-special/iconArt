@@ -340,7 +340,7 @@ jobs:
           #cd C:\core\infrastructure\ubiquitous_bash\
           #cd ./_local/ubcp
           cd ./
-          ./_bin _release_split_iconArt "./_bundle/webui_forge_cu121_torch231.7z" | tee /release.log
+          ./_bin _release_split_iconArt "./_bundle/webui_forge_cu121_torch231.7z" build-${{ github.run_id }}-${{ github.run_attempt }} | tee /release.log
           $SEL = cat /release.log | Select-String -Pattern 'FAIL' -CaseSensitive -SimpleMatch
           if ($SEL -ne $null)
           {
