@@ -84,7 +84,7 @@ jobs:
           dir C:\pwsh\pwsh.exe
 
       - name: Build with PowerShell
-        shell: C:\pwsh\pwsh.exe -File "{0}"
+        shell: C:\pwsh\pwsh.exe -ExecutionPolicy Bypass -File "{0}"
         run: |
           Write-Host "PowerShell is now installed and ready to use."
       
@@ -99,7 +99,7 @@ jobs:
           #files: |
             #/deleteme
       #- name: _getCore_ubcp-extendedInterface
-        #shell: C:\pwsh\pwsh.exe -File "{0}"
+        #shell: C:\pwsh\pwsh.exe -ExecutionPolicy Bypass -File "{0}"
         #timeout-minutes: 180
         #run: |
           ##mkdir /
@@ -110,7 +110,7 @@ jobs:
           #Start-Process -FilePath ".\extIface.exe" -ArgumentList "/wait", ".\extIface.exe", "/S" -NoNewWindow -Wait
           #rm ./extIface.exe
       - name: _getMinimal_cloud
-        shell: C:\pwsh\pwsh.exe -File "{0}"
+        shell: C:\pwsh\pwsh.exe -ExecutionPolicy Bypass -File "{0}"
         timeout-minutes: 180
         run: |
           $ErrorActionPreference="SilentlyContinue"
@@ -130,7 +130,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: statement! ls
         #if: ${{ github.event.inputs.skimfast != 'true' }}
-        shell: C:\pwsh\pwsh.exe -File "{0}"
+        shell: C:\pwsh\pwsh.exe -ExecutionPolicy Bypass -File "{0}"
         run: |
           ls /
           ls
@@ -139,7 +139,7 @@ jobs:
 
       # ATTRIBUTION-AI: ChatGPT o1-preview 2024-12-05 .
       - name: fetch
-        shell: C:\pwsh\pwsh.exe -File "{0}"
+        shell: C:\pwsh\pwsh.exe -ExecutionPolicy Bypass -File "{0}"
         timeout-minutes: 240
         run: |
           #mkdir ./_bundle
@@ -147,7 +147,7 @@ jobs:
           Invoke-WebRequest -Uri "https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z" -OutFile "webui_forge_cu121_torch231.7z"
 
       #- name: fetch
-        #shell: C:\pwsh\pwsh.exe -File "{0}"
+        #shell: C:\pwsh\pwsh.exe -ExecutionPolicy Bypass -File "{0}"
         #timeout-minutes: 240
         #run: |
           ##Set-Item -Path Env:devfast -Value ("true")
@@ -167,7 +167,7 @@ jobs:
 
       # ATTRIBUTION-AI: Llama-augment 2024-12-05 . (just the 7z command)
       - name: extract
-        shell: C:\pwsh\pwsh.exe -File "{0}"
+        shell: C:\pwsh\pwsh.exe -ExecutionPolicy Bypass -File "{0}"
         timeout-minutes: 240
         run: |
           cd ./_bundle
@@ -196,7 +196,7 @@ jobs:
       
       # ATTRIBUTION-AI: ChatGPT o1-preview 2024-12-05 .
       #- name: run_timeout
-        #shell: C:\pwsh\pwsh.exe -File "{0}"
+        #shell: C:\pwsh\pwsh.exe -ExecutionPolicy Bypass -File "{0}"
         #continue-on-error: true
         #run: |
           #$commands = @"
@@ -218,7 +218,7 @@ jobs:
 
       # ATTRIBUTION-AI: ChatGPT o1-preview 2024-12-05 .
       - name: run_timeout_log
-        shell: C:\pwsh\pwsh.exe -File "{0}"
+        shell: C:\pwsh\pwsh.exe -ExecutionPolicy Bypass -File "{0}"
         continue-on-error: true
         run: |
           # Define the batch commands
@@ -302,13 +302,13 @@ jobs:
       - name: statement! run
         run: |
           cat ./run.log
-        shell: C:\pwsh\pwsh.exe -File "{0}"
+        shell: C:\pwsh\pwsh.exe -ExecutionPolicy Bypass -File "{0}"
 
 
 
       # ATTRIBUTION-AI: Llama-augment 2024-12-05 . (just the 7z command)
       - name: compress
-        shell: C:\pwsh\pwsh.exe -File "{0}"
+        shell: C:\pwsh\pwsh.exe -ExecutionPolicy Bypass -File "{0}"
         timeout-minutes: 240
         run: |
           cd ./_bundle
@@ -318,7 +318,7 @@ jobs:
 
       - name: statement! ls
         #if: ${{ github.event.inputs.skimfast != 'true' }}
-        shell: C:\pwsh\pwsh.exe -File "{0}"
+        shell: C:\pwsh\pwsh.exe -ExecutionPolicy Bypass -File "{0}"
         run: |
           ls /
           ls
@@ -329,7 +329,7 @@ jobs:
 
 
       #- name: _getCore_ubcp-extendedInterface
-        #shell: C:\pwsh\pwsh.exe -File "{0}"
+        #shell: C:\pwsh\pwsh.exe -ExecutionPolicy Bypass -File "{0}"
         #timeout-minutes: 180
         #run: |
           ##mkdir /
@@ -343,7 +343,7 @@ jobs:
 
 
       #- name: split
-        #shell: C:\pwsh\pwsh.exe -File "{0}"
+        #shell: C:\pwsh\pwsh.exe -ExecutionPolicy Bypass -File "{0}"
         #timeout-minutes: 240
         #run: |
           ##Set-Item -Path Env:devfast -Value ("true")
@@ -366,7 +366,7 @@ jobs:
 
 
       - name: split
-        shell: C:\pwsh\pwsh.exe -File "{0}"
+        shell: C:\pwsh\pwsh.exe -ExecutionPolicy Bypass -File "{0}"
         run: |
           $file = './_bundle/webui_forge_cu121_torch231.7z'
           $chunkSize = 1856000000
@@ -401,7 +401,7 @@ jobs:
 
 
       #- name: release
-        #shell: C:\pwsh\pwsh.exe -File "{0}"
+        #shell: C:\pwsh\pwsh.exe -ExecutionPolicy Bypass -File "{0}"
         #timeout-minutes: 240
         #run: |
           ##Set-Item -Path Env:devfast -Value ("true")
