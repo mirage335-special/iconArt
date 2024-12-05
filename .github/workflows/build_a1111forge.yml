@@ -68,8 +68,14 @@ jobs:
           curl -L -o pwsh.zip https://github.com/PowerShell/PowerShell/releases/download/v7.2.6/PowerShell-7.2.6-win-x64.zip
           mkdir C:\pwsh
           tar -xf pwsh.zip -C C:\pwsh
-          set PATH=C:\pwsh;%PATH%
+          move C:\pwsh\PowerShell-7.2.6-win-x64\* C:\pwsh\
+          rmdir /S /Q C:\pwsh\PowerShell-7.2.6-win-x64
           echo C:\pwsh >> %GITHUB_PATH%
+
+      - name: Verify pwsh.exe Location
+        shell: cmd
+        run: |
+          dir C:\pwsh\pwsh.exe
 
       - name: Build with PowerShell
         shell: pwsh
