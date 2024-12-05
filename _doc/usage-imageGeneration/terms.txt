@@ -1,64 +1,64 @@
 POSITIVE:
 
-sfw, rating_safe,
+sfw, rating_safe, 
 
 
-anime, source_anime, masterpiece, best quality,
+anime, source_anime, masterpiece, best quality, 
 
 
-logo, emblem, fire emblem, sprite, pixel_art, pixel_art_inset,
-pixel art,
+logo, emblem, fire emblem, sprite, pixel_art, pixel_art_inset, 
+pixel art, 
 
 
-novel_illustration, clipart, clip art,
-solo,
+novel_illustration, clipart, clip art, 
+solo, 
 
 
-full body,
+full body, 
 
 
-<lora:FEGBA-Sprites-illus_Fp:0.4>,
-<lora:FEGBA-Sprites-illus_Fp:1>,
+<lora:FEGBA-Sprites-illus_Fp:0.4>, 
+<lora:FEGBA-Sprites-illus_Fp:1>, 
 
 
-huge
-gigantic
-giant
+huge 
+gigantic 
+giant 
 
 
-<OBJECTS>, <OBJECTS>,
+<OBJECTS>, <OBJECTS>, 
 
-simple_background, 2d, no_humans,
+simple_background, 2d, no_humans, 
 
 
 
 NEGATIVE:
 
-score_1, score_2, 1boy, 1girl, blurred, unfocused,
+score_1, score_2, 1boy, 1girl, blurred, unfocused, 
 
 
-watermark,
+watermark, 
 
 
-text,
+text, 
 
 
-weights, writing,
+weights, writing, 
 
 
-bad quality, grainy,
+bad quality, grainy, 
 
 
-worst quality, human,
+worst quality, human, 
 
 
-frame,
+frame, 
 
 
-cropped, duplicate,
+cropped, duplicate, 
 
 
-noisy, blurry, low contrast,
+noisy, blurry, low contrast, 
 
 
 
