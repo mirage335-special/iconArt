@@ -84,7 +84,7 @@ jobs:
           dir C:\pwsh\pwsh.exe
 
       - name: Build with PowerShell
-        shell: C:\pwsh\pwsh.exe
+        shell: C:\pwsh\pwsh.exe -Command "{0}"
         run: |
           Write-Host "PowerShell is now installed and ready to use."
       
