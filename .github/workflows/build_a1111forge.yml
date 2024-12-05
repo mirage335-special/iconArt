@@ -421,13 +421,22 @@ jobs:
               Accept          = "application/vnd.github.v3+json"
           } -Body $body
 
-          $uploadUrl = $response.upload_url -replace "{.*}", ""
+          # Extract the upload URL
+          $uploadUrlTemplate = $response.upload_url
+          Write-Host "Original upload_url from API: $uploadUrlTemplate"
+
+          # Remove templated query parameters
+          $uploadUrl = $uploadUrlTemplate -replace "\{.*\}", ""
+          Write-Host "Processed upload URL: $uploadUrl"
 
           # Upload each file matching the glob pattern
           Get-ChildItem -Path "./_bundle/webui_forge_cu121_torch231.7z.part*" | ForEach-Object {
               $fileName = $_.Name
               $filePath = $_.FullName
-              $assetUrl = "$uploadUrl?name=$fileName"
+              $fileNameEncoded = [System.Uri]::EscapeDataString($fileName)
+              $assetUrl = "$uploadUrl?name=$fileNameEncoded"
+
+              Write-Host "Uploading $fileName to $assetUrl"
 
               Invoke-RestMethod -Method Post -Uri $assetUrl -Headers @{
                   Authorization = "token $token"
@@ -435,6 +444,7 @@ jobs:
                   Accept          = "application/vnd.github.v3+json"
               } -InFile $filePath -UseBasicParsing
           }
+
 
 
 
