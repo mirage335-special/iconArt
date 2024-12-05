@@ -1,0 +1,164 @@
+
+name: build_a1111forge
+
+
+# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#permissions
+permissions:
+  actions: write
+  checks: read
+  contents: write
+  deployments: read
+  issues: none
+  packages: read
+  pull-requests: read
+  repository-projects: read
+  security-events: none
+  statuses: read
+
+
+on:
+  workflow_dispatch:
+    inputs:
+      devfast:
+        type: boolean
+        default: true
+      skimfast:
+        type: boolean
+        default: true
+      runnerNameMSW:
+        required: false
+        default: windows-latest
+        type: choice
+        options:
+        - windows-gpu
+        - windows-latest
+  # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
+  schedule:
+    ##- cron: '5 1 * * 6'
+    ##- cron: '5 1 * * 2,4'
+    ##- cron: '5 1 * * 2'
+    #- cron: '5 1 * * 4'
+    - cron: '5 1 9 * *'
+
+# https://docs.github.com/en/actions/using-jobs/using-concurrency
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+
+
+
+
+# https://github.com/ncipollo/release-action
+# https://github.com/softprops/action-gh-release
+# https://svrooij.io/2021/08/17/github-actions-secret-file/
+jobs:
+  #build_guard:
+    #runs-on: ubuntu-latest
+    #steps:
+      #- uses: actions/checkout@v2
+      #- uses: dev-drprasad/delete-tag-and-release@v1.0
+        #with:
+            #tag_name: build-${{ github.run_id }}-${{ github.run_attempt }} #(required) tag name to delete 
+            #github_token: ${{ secrets.GITHUB_TOKEN }}
+            #delete_release: true #(optional) default: true 
+  build_a1111forge:
+    #needs: [build_guard, build_compressed]
+    runs-on: ${{ github.event.inputs.runnerNameMSW == '' && 'windows-latest' || github.event.inputs.runnerNameMSW }}
+    steps:
+      # https://adamtheautomator.com/powershell-get-disk-space/
+      #- name: release! deleteme
+        #uses: softprops/action-gh-release@v1
+        #with:
+          #tag_name: build-${{ github.run_id }}-${{ github.run_attempt }}
+          #name: build
+          #files: |
+            #/deleteme
+      - name: _getCore_ubcp-extendedInterface
+        shell: pwsh
+        timeout-minutes: 180
+        run: |
+          #mkdir /
+          cd /
+          #Invoke-WebRequest -Uri (((Invoke-RestMethod -Uri "https://api.github.com/repos/mirage335-colossus/extendedInterface/releases") | Where-Object { $_.name -eq "internal" } | ForEach-Object { $_.assets } | Where-Object {$_.name -eq "extIface.exe"} | Sort-Object -Property {$_.browser_download_url -replace '\D+(\d+)-\d+$', '$1'} -Descending | Select-Object -First 1).browser_download_url) -OutFile ./extIface.exe
+          Invoke-WebRequest -Uri (((Invoke-RestMethod -Uri "https://api.github.com/repos/mirage335-colossus/extendedInterface/releases" -Headers @{Authorization = "Bearer ${{ secrets.GITHUB_TOKEN }}" }) | Where-Object { $_.name -eq "internal" } | ForEach-Object { $_.assets } | Where-Object {$_.name -eq "extIface.exe"} | Sort-Object -Property {$_.browser_download_url -replace '\D+(\d+)-\d+$', '$1'} -Descending | Select-Object -First 1).browser_download_url) -OutFile ./extIface.exe
+          #start "Installer" /wait "extIface" /S
+          Start-Process -FilePath ".\extIface.exe" -ArgumentList "/wait", ".\extIface.exe", "/S" -NoNewWindow -Wait
+      - name: _getMinimal_cloud
+        shell: pwsh
+        timeout-minutes: 180
+        run: |
+          $ErrorActionPreference="SilentlyContinue"
+          $ErrorActionPreference = "Continue"
+          Set-MpPreference -DisableRealtimeMonitoring $true
+          date > /wasHere.log
+          pwd >> /wasHere.log
+          cat /wasHere.log
+          #choco install qalculate -y
+          choco install dos2unix -y
+          #choco install nmap -y
+          git config --global core.autocrlf input
+          git config --global core.eol lf
+          choco install 7zip.install -y
+          #choco install rclone -y
+      - uses: actions/checkout@v2
+      - name: statement! ls
+        if: ${{ github.event.inputs.skimfast != 'true' }}
+        shell: pwsh
+        run: |
+          ls /
+          ls
+          Get-CimInstance -ClassName Win32_LogicalDisk | Select-Object -Property DeviceID,@{'Name' = 'FreeSpace (GB)'
+          Expression= { [int]($_.FreeSpace / 1GB) }}
+
+
+      - name: fetch
+        shell: pwsh
+        timeout-minutes: 240
+        run: |
+          #Set-Item -Path Env:devfast -Value ("true")
+          #cd C:\core\infrastructure\ubiquitous_bash\
+          #cd ./_local/ubcp
+          cd ./
+          ./_bin _fetch_iconArt_forge | tee /temp.log
+          $SEL = cat /temp.log | Select-String -Pattern 'FAIL' -CaseSensitive -SimpleMatch
+          if ($SEL -ne $null)
+          {
+          cat /bin/false/pwsh
+          }
+          else
+          {
+          echo true | Out-Null
+          }
+
+
+
+      - name: statement! ls
+        if: ${{ github.event.inputs.skimfast != 'true' }}
+        shell: pwsh
+        run: |
+          ls /
+          ls
+          Get-CimInstance -ClassName Win32_LogicalDisk | Select-Object -Property DeviceID,@{'Name' = 'FreeSpace (GB)'
+          Expression= { [int]($_.FreeSpace / 1GB) }}
+
+
+
+      - name: release! temp.log
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: build-${{ github.run_id }}-${{ github.run_attempt }}
+          name: build
+          files: |
+            /temp.log
+      - name: statement! test-lean
+        run: |
+          cat /temp.log
+        shell: pwsh
+
+
+
+
+
+
+

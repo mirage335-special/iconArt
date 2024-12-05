@@ -1,9 +1,16 @@
 ##### Core
 
-_aria2c_iconArt() {
-    aria2c --log=- --log-level=info -x "3" -o "$2" "$1"
-}
 
+_fetch_iconArt_forge() {
+    # Latest releases include MSWindows support and an installation of A1111/Forge for MSWindows .
+    # WARNING: May be necessary to run 'update.bat' and 'run.bat' .
+    # https://github.com/lllyasviel/stable-diffusion-webui-forge?tab=readme-ov-file#installing-forge
+    ! _aria2c_iconArt "https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z" "webui_forge_cu121_torch231.7z" && _messageFAIL
+    #! _wget_githubRelease "lllyasviel/stable-diffusion-webui-forge" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
+
+    # May be possible to splice this git repository with a release of A1111/Forge for MSWindows .
+    # https://github.com/Panchovix/stable-diffusion-webui-reForge
+}
 
 _fetch_iconArt() {
     _messageNormal '_fetch_iconArt'
@@ -26,14 +33,7 @@ _fetch_iconArt() {
     cp -n "$scriptAbsoluteFolder"/gpl-2.0.txt "$scriptBundle"/
 
 
-    # Latest releases include MSWindows support and an installation of A1111/Forge for MSWindows .
-    # WARNING: May be necessary to run 'update.bat' and 'run.bat' .
-    # https://github.com/lllyasviel/stable-diffusion-webui-forge?tab=readme-ov-file#installing-forge
-    ! _aria2c_iconArt "https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z" "webui_forge_cu121_torch231.7z" && _messageFAIL
-    #! _wget_githubRelease "lllyasviel/stable-diffusion-webui-forge" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
-
-    # May be possible to splice this git repository with a release of A1111/Forge for MSWindows .
-    # https://github.com/Panchovix/stable-diffusion-webui-reForge
+    #_fetch_iconArt_forge
 
 
     # noobaiXLNAIXL_epsilonPred05Version, Version: f2.0.1v1.10.1-previous-501-g668e87f9
@@ -72,10 +72,6 @@ _join_iconArt() {
     
     _messagePlain_probe_cmd _join_iconArt "$scriptBundle"/animagine-xl-3.1.safetensors
 }
-
-
-
-
 _split_file_iconArt() {
     local functionEntryPWD
 	functionEntryPWD="$PWD"
@@ -92,8 +88,6 @@ _split_file_iconArt() {
 
     cd "$functionEntryPWD"
 }
-
-
 #_join_iconArt "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors
 #_join_iconArt "$scriptBundle"/animagine-xl-3.1.safetensors
 _join_file_iconArt() {
@@ -112,7 +106,9 @@ _join_file_iconArt() {
 
     cd "$functionEntryPWD"
 }
-
+_aria2c_iconArt() {
+    aria2c --log=- --log-level=info -x "3" -o "$2" "$1"
+}
 
 
 _refresh_anchors() {
