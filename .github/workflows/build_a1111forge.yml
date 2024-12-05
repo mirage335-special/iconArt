@@ -23,18 +23,18 @@ on:
     inputs:
       runnerNameMSW:
         required: false
-        default: windows-latest
+        default: windows-gpu
         type: choice
         options:
         - windows-gpu
         - windows-latest
   # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
-  schedule:
-    ##- cron: '5 1 * * 6'
-    ##- cron: '5 1 * * 2,4'
-    ##- cron: '5 1 * * 2'
-    #- cron: '5 1 * * 4'
-    - cron: '5 1 9 * *'
+  #schedule:
+    ###- cron: '5 1 * * 6'
+    ###- cron: '5 1 * * 2,4'
+    ###- cron: '5 1 * * 2'
+    ##- cron: '5 1 * * 4'
+    #- cron: '5 1 9 * *'
 
 # https://docs.github.com/en/actions/using-jobs/using-concurrency
 concurrency:
@@ -62,6 +62,19 @@ jobs:
     #needs: [build_guard, build_compressed]
     runs-on: ${{ github.event.inputs.runnerNameMSW == '' && 'windows-latest' || github.event.inputs.runnerNameMSW }}
     steps:
+      - name: Install PowerShell
+        shell: cmd
+        run: |
+          curl -L -o pwsh.zip https://github.com/PowerShell/PowerShell/releases/download/v7.2.6/PowerShell-7.2.6-win-x64.zip
+          mkdir C:\pwsh
+          tar -xf pwsh.zip -C C:\pwsh
+          set PATH=C:\pwsh;%PATH%
+
+      - name: Build with PowerShell
+        shell: pwsh
+        run: |
+          Write-Host "PowerShell is now installed and ready to use."
+      
       # https://adamtheautomator.com/powershell-get-disk-space/
       #- name: release! deleteme
         #uses: softprops/action-gh-release@v1
