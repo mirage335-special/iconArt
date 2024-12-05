@@ -69,6 +69,7 @@ jobs:
           mkdir C:\pwsh
           tar -xf pwsh.zip -C C:\pwsh
           set PATH=C:\pwsh;%PATH%
+          echo C:\pwsh >> %GITHUB_PATH%
 
       - name: Build with PowerShell
         shell: pwsh
