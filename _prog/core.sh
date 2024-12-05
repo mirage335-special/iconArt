@@ -59,6 +59,9 @@ _fetch_iconArt() {
     cksum ./*
 
     cd "$functionEntryPWD"
+
+    _if_cygwin && sleep 22
+
     return 0
 }
 

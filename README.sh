@@ -64,7 +64,8 @@ Useful things for generating icons and clip art from AI. Generating icons has, h
 _t '
 
 
-'_heading1 'Usage - Useful Directories'
+'
+_heading1 'Usage - Useful Directories'
 _paragraph_begin
 _t './_lib/png_jpg_convert
 
@@ -78,7 +79,9 @@ _t '
 '
 _heading1 'Usage'
 _paragraph_begin
-_o _messagePlain_probe './ubiquitous_bash.sh'
+_o _messagePlain_probe './ubiquitous_bash.sh _fetch_iconArt'
+_t 'Or if you are using MSWindows and have extendedInterface installed...'
+_o _messagePlain_probe '_fetch_iconArt.bat'
 _paragraph_end
 _paragraph_begin
 _t '
