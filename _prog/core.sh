@@ -5,8 +5,9 @@ _fetch_iconArt_forge() {
     # Latest releases include MSWindows support and an installation of A1111/Forge for MSWindows .
     # WARNING: May be necessary to run 'update.bat' and 'run.bat' .
     # https://github.com/lllyasviel/stable-diffusion-webui-forge?tab=readme-ov-file#installing-forge
-    ! _aria2c_iconArt "https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z" "webui_forge_cu121_torch231.7z" && _messageFAIL
+    #! _aria2c_iconArt "https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z" "webui_forge_cu121_torch231.7z" && _messageFAIL
     #! _wget_githubRelease "lllyasviel/stable-diffusion-webui-forge" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
+    wget 'https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z'
 
     # May be possible to splice this git repository with a release of A1111/Forge for MSWindows .
     # https://github.com/Panchovix/stable-diffusion-webui-reForge

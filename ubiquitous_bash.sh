@@ -36,7 +36,7 @@ _ub_cksum_special_derivativeScripts_contents() {
 #export ub_setScriptChecksum_disable='true'
 ( [[ -e "$0".nck ]] || [[ "${BASH_SOURCE[0]}" != "${0}" ]] || [[ "$1" == '--profile' ]] || [[ "$1" == '--script' ]] || [[ "$1" == '--call' ]] || [[ "$1" == '--return' ]] || [[ "$1" == '--devenv' ]] || [[ "$1" == '--shell' ]] || [[ "$1" == '--bypass' ]] || [[ "$1" == '--parent' ]] || [[ "$1" == '--embed' ]] || [[ "$1" == '--compressed' ]] || [[ "$0" == "/bin/bash" ]] || [[ "$0" == "-bash" ]] || [[ "$0" == "/usr/bin/bash" ]] || [[ "$0" == "bash" ]] ) && export ub_setScriptChecksum_disable='true'
 export ub_setScriptChecksum_header='2591634041'
-export ub_setScriptChecksum_contents='554803821'
+export ub_setScriptChecksum_contents='3365256043'
 
 # CAUTION: Symlinks may cause problems. Disable this test for such cases if necessary.
 # WARNING: Performance may be crucial here.
@@ -46191,8 +46191,9 @@ _fetch_iconArt_forge() {
     # Latest releases include MSWindows support and an installation of A1111/Forge for MSWindows .
     # WARNING: May be necessary to run 'update.bat' and 'run.bat' .
     # https://github.com/lllyasviel/stable-diffusion-webui-forge?tab=readme-ov-file#installing-forge
-    ! _aria2c_iconArt "https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z" "webui_forge_cu121_torch231.7z" && _messageFAIL
+    #! _aria2c_iconArt "https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z" "webui_forge_cu121_torch231.7z" && _messageFAIL
     #! _wget_githubRelease "lllyasviel/stable-diffusion-webui-forge" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
+    wget 'https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z'
 
     # May be possible to splice this git repository with a release of A1111/Forge for MSWindows .
     # https://github.com/Panchovix/stable-diffusion-webui-reForge
