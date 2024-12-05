@@ -68,17 +68,17 @@ jobs:
           #name: build
           #files: |
             #/deleteme
-      - name: _getCore_ubcp-extendedInterface
-        shell: pwsh
-        timeout-minutes: 180
-        run: |
-          #mkdir /
-          cd /
-          #Invoke-WebRequest -Uri (((Invoke-RestMethod -Uri "https://api.github.com/repos/mirage335-colossus/extendedInterface/releases") | Where-Object { $_.name -eq "internal" } | ForEach-Object { $_.assets } | Where-Object {$_.name -eq "extIface.exe"} | Sort-Object -Property {$_.browser_download_url -replace '\D+(\d+)-\d+$', '$1'} -Descending | Select-Object -First 1).browser_download_url) -OutFile ./extIface.exe
-          Invoke-WebRequest -Uri (((Invoke-RestMethod -Uri "https://api.github.com/repos/mirage335-colossus/extendedInterface/releases" -Headers @{Authorization = "Bearer ${{ secrets.GITHUB_TOKEN }}" }) | Where-Object { $_.name -eq "internal" } | ForEach-Object { $_.assets } | Where-Object {$_.name -eq "extIface.exe"} | Sort-Object -Property {$_.browser_download_url -replace '\D+(\d+)-\d+$', '$1'} -Descending | Select-Object -First 1).browser_download_url) -OutFile ./extIface.exe
-          #start "Installer" /wait "extIface" /S
-          Start-Process -FilePath ".\extIface.exe" -ArgumentList "/wait", ".\extIface.exe", "/S" -NoNewWindow -Wait
-          rm ./extIface.exe
+      #- name: _getCore_ubcp-extendedInterface
+        #shell: pwsh
+        #timeout-minutes: 180
+        #run: |
+          ##mkdir /
+          #cd /
+          ##Invoke-WebRequest -Uri (((Invoke-RestMethod -Uri "https://api.github.com/repos/mirage335-colossus/extendedInterface/releases") | Where-Object { $_.name -eq "internal" } | ForEach-Object { $_.assets } | Where-Object {$_.name -eq "extIface.exe"} | Sort-Object -Property {$_.browser_download_url -replace '\D+(\d+)-\d+$', '$1'} -Descending | Select-Object -First 1).browser_download_url) -OutFile ./extIface.exe
+          #Invoke-WebRequest -Uri (((Invoke-RestMethod -Uri "https://api.github.com/repos/mirage335-colossus/extendedInterface/releases" -Headers @{Authorization = "Bearer ${{ secrets.GITHUB_TOKEN }}" }) | Where-Object { $_.name -eq "internal" } | ForEach-Object { $_.assets } | Where-Object {$_.name -eq "extIface.exe"} | Sort-Object -Property {$_.browser_download_url -replace '\D+(\d+)-\d+$', '$1'} -Descending | Select-Object -First 1).browser_download_url) -OutFile ./extIface.exe
+          ##start "Installer" /wait "extIface" /S
+          #Start-Process -FilePath ".\extIface.exe" -ArgumentList "/wait", ".\extIface.exe", "/S" -NoNewWindow -Wait
+          #rm ./extIface.exe
       - name: _getMinimal_cloud
         shell: pwsh
         timeout-minutes: 180
@@ -106,25 +106,59 @@ jobs:
           Get-CimInstance -ClassName Win32_LogicalDisk | Select-Object -Property DeviceID,@{'Name' = 'FreeSpace (GB)'
           Expression= { [int]($_.FreeSpace / 1GB) }}
 
-
       - name: fetch
         shell: pwsh
         timeout-minutes: 240
         run: |
-          #Set-Item -Path Env:devfast -Value ("true")
-          #cd C:\core\infrastructure\ubiquitous_bash\
-          #cd ./_local/ubcp
-          cd ./
-          ./_bin _fetch_iconArt_forge | tee /temp.log
-          $SEL = cat /temp.log | Select-String -Pattern 'FAIL' -CaseSensitive -SimpleMatch
-          if ($SEL -ne $null)
-          {
-          cat /bin/false/pwsh
-          }
-          else
-          {
-          echo true | Out-Null
-          }
+          mkdir ./_bundle
+          cd ./_bundle
+          Invoke-WebRequest -Uri "https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z" -OutFile "webui_forge_cu121_torch231.7z"
+
+      #- name: fetch
+        #shell: pwsh
+        #timeout-minutes: 240
+        #run: |
+          ##Set-Item -Path Env:devfast -Value ("true")
+          ##cd C:\core\infrastructure\ubiquitous_bash\
+          ##cd ./_local/ubcp
+          #cd ./
+          #./_bin _fetch_iconArt_forge | tee /temp.log
+          #$SEL = cat /temp.log | Select-String -Pattern 'FAIL' -CaseSensitive -SimpleMatch
+          #if ($SEL -ne $null)
+          #{
+          #cat /bin/false/pwsh
+          #}
+          #else
+          #{
+          #echo true | Out-Null
+          #}
+
+      - name: extract
+        shell: pwsh
+        timeout-minutes: 240
+        run: |
+          cd ./_bundle
+          & "C:\Program Files\7-Zip\7z.exe" x -o"./webui_forge_cu121_torch231" ./webui_forge_cu121_torch231.7z
+
+      - name: update
+        shell: cmd
+        timeout-minutes: 240
+        run: |
+          cd ./_bundle/webui_forge_cu121_torch231
+          call environment.bat
+          git -C "webui" pull
+          git -C "webui" reset --hard
+          git -C "webui" pull
+    
+      - name: run
+        shell: cmd
+        timeout-minutes: 10
+        continue-on-error: true
+        run: |
+          cd ./_bundle/webui_forge_cu121_torch231
+          call environment.bat
+          cd webui
+          call webui-user.bat
 
 
 
