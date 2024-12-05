@@ -84,10 +84,12 @@ jobs:
           dir C:\pwsh\pwsh.exe
 
       - name: Build with PowerShell
-        shell: pwsh
+        shell: C:\pwsh\pwsh.exe
         run: |
           Write-Host "PowerShell is now installed and ready to use."
       
+
+
       # https://adamtheautomator.com/powershell-get-disk-space/
       #- name: release! deleteme
         #uses: softprops/action-gh-release@v1
