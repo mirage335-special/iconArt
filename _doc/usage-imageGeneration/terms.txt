@@ -62,4 +62,49 @@ noisy, blurry, low contrast,
 
 
 
+RECOMMENDED:
+
+
+noobaiXLNAIXL_epsilonPred05Version, Version: f2.0.1v1.10.1-previous-501-g668e87f9
+from_model
+bnp-fp4 (fp16 LoRA)
+Euler a
+Turbo
+Steps 12
+CFG 7
+Resolution 1024x1024
+
+fp8_e5m2 (fp16 LoRA)
+Euler a
+Turbo
+Steps 12
+
+
+animagineXLV31_v31, Version: f2.0.1v1.10.1-previous-501-g668e87f9, Model hash: cedf157a80
+
+bnp-fp4 (fp16 LoRA)
+DPM++ 2M SDE
+Karras
+Steps 20
+
+fp8_e4m3fn (fp16 LoRA)
+DPM++ 2M SDE
+Karras
+Steps 20
+
+fp8_e4m3fn (fp16 LoRA)
+Euler a
+Polyexponential
+Steps 80
+
+fp8_e4m3fn (fp16 LoRA)
+DPM++ 2M SDE
+Polyexponential
+Steps 80
+
+fp8_e4m3fn (fp16 LoRA)
+Euler a
+Polyexponential
+Steps 150
+
 
