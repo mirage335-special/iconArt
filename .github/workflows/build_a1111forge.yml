@@ -65,14 +65,6 @@ jobs:
       
       # ATTRIBUTION-AI: ChatGPT o1-preview 2024-12-05 .
       # Install PowerShell
-jobs:
-  build:
-    runs-on: windows-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      # Install PowerShell
       - name: Install PowerShell
         shell: cmd
         run: |
