@@ -166,7 +166,9 @@ jobs:
         run: |
           #mkdir ./_bundle
           cd ./_bundle
-          #Invoke-WebRequest -Uri "https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z" -OutFile "webui_forge_cu121_torch231.7z"
+          #webui_forge_cu121_torch21.7z
+          #webui_forge_cu124_torch24.7z
+          #webui_forge_cu124_torch24.7z
           Invoke-WebRequest -Uri "https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu124_torch24.7z" -OutFile "webui_forge_cu124_torch24.7z"
 
       #- name: fetch
@@ -194,8 +196,8 @@ jobs:
         timeout-minutes: 240
         run: |
           cd ./_bundle
-          & "C:\Program Files\7-Zip\7z.exe" -y x -o"./webui_forge_cu121_torch231" ./webui_forge_cu121_torch231.7z
-          rm webui_forge_cu121_torch231.7z
+          & "C:\Program Files\7-Zip\7z.exe" -y x -o"./webui_forge_cu121_torch231" ./webui_forge_cu124_torch24.7z
+          rm webui_forge_cu124_torch24.7z
 
       - name: update
         shell: cmd
@@ -335,7 +337,7 @@ jobs:
         timeout-minutes: 240
         run: |
           cd ./_bundle
-          & "C:\Program Files\7-Zip\7z.exe" -y a -t7z -m0=lzma2 -mmt=6 -mx=9 "./webui_forge_cu121_torch231.7z" "./webui_forge_cu121_torch231"
+          & "C:\Program Files\7-Zip\7z.exe" -y a -t7z -m0=lzma2 -mmt=6 -mx=9 "./webui_forge_cu124_torch24.7z" "./webui_forge_cu121_torch231"
 
 
 
@@ -373,7 +375,7 @@ jobs:
           ##cd C:\core\infrastructure\ubiquitous_bash\
           ##cd ./_local/ubcp
           #cd ./
-          #./_bin _split_file_iconArt "./_bundle/webui_forge_cu121_torch231.7z" | tee /split.log
+          #./_bin _split_file_iconArt "./_bundle/webui_forge_cu124_torch24.7z" | tee /split.log
           #$SEL = cat /split.log | Select-String -Pattern 'FAIL' -CaseSensitive -SimpleMatch
           #if ($SEL -ne $null)
           #{
@@ -391,7 +393,7 @@ jobs:
       - name: split
         shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
         run: |
-          $file = './_bundle/webui_forge_cu121_torch231.7z'
+          $file = './_bundle/webui_forge_cu124_torch24.7z'
           $chunkSize = 1856000000
 
           for ($currentIteration = 0; $currentIteration -le 24; $currentIteration++) {
@@ -431,7 +433,7 @@ jobs:
           ##cd C:\core\infrastructure\ubiquitous_bash\
           ##cd ./_local/ubcp
           #cd ./
-          #./_bin _release_split_iconArt "./_bundle/webui_forge_cu121_torch231.7z" build-${{ github.run_id }}-${{ github.run_attempt }} | tee /release.log
+          #./_bin _release_split_iconArt "./_bundle/webui_forge_cu124_torch24.7z" build-${{ github.run_id }}-${{ github.run_attempt }} | tee /release.log
           #$SEL = cat /release.log | Select-String -Pattern 'FAIL' -CaseSensitive -SimpleMatch
           #if ($SEL -ne $null)
           #{
@@ -452,7 +454,7 @@ jobs:
           tag_name: build-${{ github.run_id }}-${{ github.run_attempt }}
           name: build
           files: |
-            ./_bundle/webui_forge_cu121_torch231.7z.part*
+            ./_bundle/webui_forge_cu124_torch24.7z.part*
 
 
 
