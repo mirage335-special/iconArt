@@ -48,9 +48,15 @@ _fetch_iconArt_forge-built() {
     rm -f "$scriptBundle"/webui_forge_cu121_torch21.7z
     rm -f "$scriptBundle"/webui_forge_cu121_torch231.7z
     rm -f "$scriptBundle"/webui_forge_cu124_torch24.7z
+
+    rm -f "$scriptBundle"/webui_forge_cu121_torch21-*.7z
+    rm -f "$scriptBundle"/webui_forge_cu121_torch231-*.7z
+    rm -f "$scriptBundle"/webui_forge_cu124_torch24-*.7z
     
-    ! _wget_githubRelease "mirage335-special/iconArt" "" "run.log" && _messageFAIL
-    ! _wget_githubRelease_join "mirage335-special/iconArt" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
+    #! _wget_githubRelease "mirage335-special/iconArt" "" "run.log" && _messageFAIL
+    #! _wget_githubRelease_join "mirage335-special/iconArt" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
+
+    ! _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messageFAIL
     
     cd "$functionEntryPWD"
 
