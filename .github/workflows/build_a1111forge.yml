@@ -65,6 +65,14 @@ jobs:
       
       # ATTRIBUTION-AI: ChatGPT o1-preview 2024-12-05 .
       # Install PowerShell
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Install PowerShell
       - name: Install PowerShell
         shell: cmd
         run: |
@@ -74,18 +82,19 @@ jobs:
           set PATH=C:\pwsh;%PATH%
           echo C:\pwsh >> %GITHUB_PATH%
 
-      # Create a handler script that invokes the given script file
+      # Create a handler script that copies the ephemeral script to a .ps1 file and then executes it
       - name: Create pwsh Handler Script
         shell: cmd
         run: |
           echo Param([Parameter(Mandatory=$true)][string]$ScriptPath) > C:\pwsh\pwsh_handler.ps1
           echo Write-Host "Running script via handler: $ScriptPath" >> C:\pwsh\pwsh_handler.ps1
-          echo Write-Host "Displaying contents of $ScriptPath" >> C:\pwsh\pwsh_handler.ps1
-          echo Get-Content $ScriptPath >> C:\pwsh\pwsh_handler.ps1
+          echo '$newScript = "C:\pwsh\handler_temp_script.ps1"' >> C:\pwsh\pwsh_handler.ps1
+          echo 'Copy-Item $ScriptPath $newScript -Force' >> C:\pwsh\pwsh_handler.ps1
+          echo Write-Host "Script copied to $newScript. Displaying contents:" >> C:\pwsh\pwsh_handler.ps1
+          echo Get-Content $newScript >> C:\pwsh\pwsh_handler.ps1
           echo Write-Host "Now executing script..." >> C:\pwsh\pwsh_handler.ps1
-          echo ^& $ScriptPath >> C:\pwsh\pwsh_handler.ps1
+          echo '& $newScript' >> C:\pwsh\pwsh_handler.ps1
           echo Write-Host "Script execution complete." >> C:\pwsh\pwsh_handler.ps1
-
 
       - name: Verify Installation
         shell: cmd
@@ -94,13 +103,13 @@ jobs:
           dir C:\pwsh\pwsh.exe
           dir C:\pwsh\pwsh_handler.ps1
 
-      # Use the handler script to run PowerShell code
+      # Use the handler script as the shell
       - name: Run PowerShell Code via Handler
         shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
         run: |
           Write-Host "PowerShell is now installed and ready to use."
           # Add more PowerShell commands here to see their output
-      
+
 
 
       # https://adamtheautomator.com/powershell-get-disk-space/
