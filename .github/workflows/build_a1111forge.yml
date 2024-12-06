@@ -74,29 +74,31 @@ jobs:
           set PATH=C:\pwsh;%PATH%
           echo C:\pwsh >> %GITHUB_PATH%
 
-      # Create a handler script to properly invoke the provided script
+      # Create a handler script that invokes the given script file
       - name: Create pwsh Handler Script
         shell: cmd
         run: |
           echo Param^(^[Parameter(Mandatory=$true)]^[string]$ScriptPath^) > C:\pwsh\pwsh_handler.ps1
           echo Write-Host "Running script via handler: $ScriptPath" >> C:\pwsh\pwsh_handler.ps1
-          echo . "$ScriptPath" >> C:\pwsh\pwsh_handler.ps1
+          echo Write-Host "Displaying contents of $ScriptPath" >> C:\pwsh\pwsh_handler.ps1
+          echo Get-Content $ScriptPath >> C:\pwsh\pwsh_handler.ps1
+          echo Write-Host "Now executing script..." >> C:\pwsh\pwsh_handler.ps1
+          echo & $ScriptPath >> C:\pwsh\pwsh_handler.ps1
+          echo Write-Host "Script execution complete." >> C:\pwsh\pwsh_handler.ps1
 
-      # Verify that pwsh is installed and the handler script is in place
       - name: Verify Installation
         shell: cmd
         run: |
-          dir C:\
           dir C:\pwsh
           dir C:\pwsh\pwsh.exe
           dir C:\pwsh\pwsh_handler.ps1
 
-      # Use the handler script as the shell, passing in {0} as the file parameter
+      # Use the handler script to run PowerShell code
       - name: Run PowerShell Code via Handler
         shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
         run: |
           Write-Host "PowerShell is now installed and ready to use."
-          # Your PowerShell code can go here, or in subsequent steps
+          # Add more PowerShell commands here to see their output
       
 
 
