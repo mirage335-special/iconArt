@@ -74,19 +74,19 @@ jobs:
           set PATH=C:\pwsh;%PATH%
           echo C:\pwsh >> %GITHUB_PATH%
 
-      # Create a handler script that copies the ephemeral script to a .ps1 file and then executes it
+      # Create handler script in cmd only, with escapes
       - name: Create pwsh Handler Script
         shell: cmd
         run: |
-          echo Param([Parameter(Mandatory=$true)][string]$ScriptPath) > C:\pwsh\pwsh_handler.ps1
-          echo Write-Host "Running script via handler: $ScriptPath" >> C:\pwsh\pwsh_handler.ps1
-          echo '$newScript = "C:\pwsh\handler_temp_script.ps1"' >> C:\pwsh\pwsh_handler.ps1
-          echo 'Copy-Item $ScriptPath $newScript -Force' >> C:\pwsh\pwsh_handler.ps1
-          echo Write-Host "Script copied to $newScript. Displaying contents:" >> C:\pwsh\pwsh_handler.ps1
-          echo Get-Content $newScript >> C:\pwsh\pwsh_handler.ps1
-          echo Write-Host "Now executing script..." >> C:\pwsh\pwsh_handler.ps1
-          echo '& $newScript' >> C:\pwsh\pwsh_handler.ps1
-          echo Write-Host "Script execution complete." >> C:\pwsh\pwsh_handler.ps1
+          echo Param([Parameter^(Mandatory=$true^)][string]$ScriptPath) >C:\pwsh\pwsh_handler.ps1
+          echo Write-Host "Running script via handler: $ScriptPath" >>C:\pwsh\pwsh_handler.ps1
+          echo $newScript = "C:\pwsh\handler_temp_script.ps1" >>C:\pwsh\pwsh_handler.ps1
+          echo Copy-Item $ScriptPath $newScript -Force >>C:\pwsh\pwsh_handler.ps1
+          echo Write-Host "Script copied to $newScript. Displaying contents:" >>C:\pwsh\pwsh_handler.ps1
+          echo Get-Content $newScript >>C:\pwsh\pwsh_handler.ps1
+          echo Write-Host "Now executing script..." >>C:\pwsh\pwsh_handler.ps1
+          echo ^& $newScript >>C:\pwsh\pwsh_handler.ps1
+          echo Write-Host "Script execution complete." >>C:\pwsh\pwsh_handler.ps1
 
       - name: Verify Installation
         shell: cmd
@@ -100,7 +100,7 @@ jobs:
         shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
         run: |
           Write-Host "PowerShell is now installed and ready to use."
-          # Add more PowerShell commands here to see their output
+          # Add PowerShell commands here; their output will now be displayed
 
 
 
