@@ -102,6 +102,13 @@ jobs:
           Write-Host "PowerShell is now installed and ready to use."
           # Add PowerShell commands here; their output will now be displayed
 
+      - name: Install chocolatey
+        shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
+        run: |
+          Write-Host "Install chocolatey..."
+          # Add PowerShell commands here; their output will now be displayed
+          Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
 
 
       # https://adamtheautomator.com/powershell-get-disk-space/
