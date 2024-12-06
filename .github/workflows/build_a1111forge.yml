@@ -78,13 +78,14 @@ jobs:
       - name: Create pwsh Handler Script
         shell: cmd
         run: |
-          echo Param^(^[Parameter(Mandatory=$true)]^[string]$ScriptPath^) > C:\pwsh\pwsh_handler.ps1
+          echo Param([Parameter(Mandatory=$true)][string]$ScriptPath) > C:\pwsh\pwsh_handler.ps1
           echo Write-Host "Running script via handler: $ScriptPath" >> C:\pwsh\pwsh_handler.ps1
           echo Write-Host "Displaying contents of $ScriptPath" >> C:\pwsh\pwsh_handler.ps1
           echo Get-Content $ScriptPath >> C:\pwsh\pwsh_handler.ps1
           echo Write-Host "Now executing script..." >> C:\pwsh\pwsh_handler.ps1
-          echo & $ScriptPath >> C:\pwsh\pwsh_handler.ps1
+          echo ^& $ScriptPath >> C:\pwsh\pwsh_handler.ps1
           echo Write-Host "Script execution complete." >> C:\pwsh\pwsh_handler.ps1
+
 
       - name: Verify Installation
         shell: cmd
