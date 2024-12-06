@@ -166,7 +166,8 @@ jobs:
         run: |
           #mkdir ./_bundle
           cd ./_bundle
-          Invoke-WebRequest -Uri "https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z" -OutFile "webui_forge_cu121_torch231.7z"
+          #Invoke-WebRequest -Uri "https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z" -OutFile "webui_forge_cu121_torch231.7z"
+          Invoke-WebRequest -Uri "https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu124_torch24.7z" -OutFile "webui_forge_cu124_torch24.7z"
 
       #- name: fetch
         #shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
