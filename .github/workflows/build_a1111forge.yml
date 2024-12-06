@@ -64,29 +64,39 @@ jobs:
     steps:
       
       # ATTRIBUTION-AI: ChatGPT o1-preview 2024-12-05 .
+      # Install PowerShell
       - name: Install PowerShell
         shell: cmd
         run: |
           curl -L -o pwsh.zip https://github.com/PowerShell/PowerShell/releases/download/v7.2.6/PowerShell-7.2.6-win-x64.zip
           mkdir C:\pwsh
           tar -xf pwsh.zip -C C:\pwsh
-          #powershell -Command "Expand-Archive -Path pwsh.zip -DestinationPath C:\pwsh"
-          #move C:\pwsh\PowerShell-7.2.6-win-x64\* C:\pwsh\
-          #rmdir /S /Q C:\pwsh\PowerShell-7.2.6-win-x64
           set PATH=C:\pwsh;%PATH%
           echo C:\pwsh >> %GITHUB_PATH%
 
-      - name: Verify pwsh.exe Location
+      # Create a handler script to properly invoke the provided script
+      - name: Create pwsh Handler Script
+        shell: cmd
+        run: |
+          echo Param^(^[Parameter(Mandatory=$true)]^[string]$ScriptPath^) > C:\pwsh\pwsh_handler.ps1
+          echo Write-Host "Running script via handler: $ScriptPath" >> C:\pwsh\pwsh_handler.ps1
+          echo . "$ScriptPath" >> C:\pwsh\pwsh_handler.ps1
+
+      # Verify that pwsh is installed and the handler script is in place
+      - name: Verify Installation
         shell: cmd
         run: |
           dir C:\
           dir C:\pwsh
           dir C:\pwsh\pwsh.exe
+          dir C:\pwsh\pwsh_handler.ps1
 
-      - name: Build with PowerShell
-        shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -Command "& { . '{0}' }"
+      # Use the handler script as the shell, passing in {0} as the file parameter
+      - name: Run PowerShell Code via Handler
+        shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
         run: |
           Write-Host "PowerShell is now installed and ready to use."
+          # Your PowerShell code can go here, or in subsequent steps
       
 
 
@@ -99,7 +109,7 @@ jobs:
           #files: |
             #/deleteme
       #- name: _getCore_ubcp-extendedInterface
-        #shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -Command "& { . '{0}' }"
+        #shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
         #timeout-minutes: 180
         #run: |
           ##mkdir /
@@ -110,7 +120,7 @@ jobs:
           #Start-Process -FilePath ".\extIface.exe" -ArgumentList "/wait", ".\extIface.exe", "/S" -NoNewWindow -Wait
           #rm ./extIface.exe
       - name: _getMinimal_cloud
-        shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -Command "& { . '{0}' }"
+        shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
         timeout-minutes: 180
         run: |
           $ErrorActionPreference="SilentlyContinue"
@@ -130,7 +140,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: statement! ls
         #if: ${{ github.event.inputs.skimfast != 'true' }}
-        shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -Command "& { . '{0}' }"
+        shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
         run: |
           ls /
           ls
@@ -139,7 +149,7 @@ jobs:
 
       # ATTRIBUTION-AI: ChatGPT o1-preview 2024-12-05 .
       - name: fetch
-        shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -Command "& { . '{0}' }"
+        shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
         timeout-minutes: 240
         run: |
           #mkdir ./_bundle
@@ -147,7 +157,7 @@ jobs:
           Invoke-WebRequest -Uri "https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z" -OutFile "webui_forge_cu121_torch231.7z"
 
       #- name: fetch
-        #shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -Command "& { . '{0}' }"
+        #shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
         #timeout-minutes: 240
         #run: |
           ##Set-Item -Path Env:devfast -Value ("true")
@@ -167,7 +177,7 @@ jobs:
 
       # ATTRIBUTION-AI: Llama-augment 2024-12-05 . (just the 7z command)
       - name: extract
-        shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -Command "& { . '{0}' }"
+        shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
         timeout-minutes: 240
         run: |
           cd ./_bundle
@@ -196,7 +206,7 @@ jobs:
       
       # ATTRIBUTION-AI: ChatGPT o1-preview 2024-12-05 .
       #- name: run_timeout
-        #shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -Command "& { . '{0}' }"
+        #shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
         #continue-on-error: true
         #run: |
           #$commands = @"
@@ -218,7 +228,7 @@ jobs:
 
       # ATTRIBUTION-AI: ChatGPT o1-preview 2024-12-05 .
       - name: run_timeout_log
-        shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -Command "& { . '{0}' }"
+        shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
         continue-on-error: true
         run: |
           # Define the batch commands
@@ -302,13 +312,13 @@ jobs:
       - name: statement! run
         run: |
           cat ./run.log
-        shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -Command "& { . '{0}' }"
+        shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
 
 
 
       # ATTRIBUTION-AI: Llama-augment 2024-12-05 . (just the 7z command)
       - name: compress
-        shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -Command "& { . '{0}' }"
+        shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
         timeout-minutes: 240
         run: |
           cd ./_bundle
@@ -318,7 +328,7 @@ jobs:
 
       - name: statement! ls
         #if: ${{ github.event.inputs.skimfast != 'true' }}
-        shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -Command "& { . '{0}' }"
+        shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
         run: |
           ls /
           ls
@@ -329,7 +339,7 @@ jobs:
 
 
       #- name: _getCore_ubcp-extendedInterface
-        #shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -Command "& { . '{0}' }"
+        #shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
         #timeout-minutes: 180
         #run: |
           ##mkdir /
@@ -343,7 +353,7 @@ jobs:
 
 
       #- name: split
-        #shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -Command "& { . '{0}' }"
+        #shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
         #timeout-minutes: 240
         #run: |
           ##Set-Item -Path Env:devfast -Value ("true")
@@ -366,7 +376,7 @@ jobs:
 
 
       - name: split
-        shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -Command "& { . '{0}' }"
+        shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
         run: |
           $file = './_bundle/webui_forge_cu121_torch231.7z'
           $chunkSize = 1856000000
@@ -401,7 +411,7 @@ jobs:
 
 
       #- name: release
-        #shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -Command "& { . '{0}' }"
+        #shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
         #timeout-minutes: 240
         #run: |
           ##Set-Item -Path Env:devfast -Value ("true")
