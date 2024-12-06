@@ -36,7 +36,7 @@ _ub_cksum_special_derivativeScripts_contents() {
 #export ub_setScriptChecksum_disable='true'
 ( [[ -e "$0".nck ]] || [[ "${BASH_SOURCE[0]}" != "${0}" ]] || [[ "$1" == '--profile' ]] || [[ "$1" == '--script' ]] || [[ "$1" == '--call' ]] || [[ "$1" == '--return' ]] || [[ "$1" == '--devenv' ]] || [[ "$1" == '--shell' ]] || [[ "$1" == '--bypass' ]] || [[ "$1" == '--parent' ]] || [[ "$1" == '--embed' ]] || [[ "$1" == '--compressed' ]] || [[ "$0" == "/bin/bash" ]] || [[ "$0" == "-bash" ]] || [[ "$0" == "/usr/bin/bash" ]] || [[ "$0" == "bash" ]] ) && export ub_setScriptChecksum_disable='true'
 export ub_setScriptChecksum_header='2591634041'
-export ub_setScriptChecksum_contents='1843446168'
+export ub_setScriptChecksum_contents='3889180781'
 
 # CAUTION: Symlinks may cause problems. Disable this test for such cases if necessary.
 # WARNING: Performance may be crucial here.
@@ -46189,21 +46189,67 @@ _package() {
 
 
 _fetch_iconArt_forge() {
+    _messagePlain_nominal '_fetch_iconArt_forge'
+
+    local functionEntryPWD
+    functionEntryPWD="$PWD"
+
+    mkdir -p "$scriptBundle"
+    cd "$scriptBundle"
+    
+    rm -f "$scriptBundle"/run.log
+
+    rm -f "$scriptBundle"/webui_forge_cu121_torch21.7z
+    rm -f "$scriptBundle"/webui_forge_cu121_torch231.7z
+    rm -f "$scriptBundle"/webui_forge_cu124_torch24.7z
+
     # Latest releases include MSWindows support and an installation of A1111/Forge for MSWindows .
     # WARNING: May be necessary to run 'update.bat' and 'run.bat' .
     # https://github.com/lllyasviel/stable-diffusion-webui-forge?tab=readme-ov-file#installing-forge
     #! _aria2c_iconArt "https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z" "webui_forge_cu121_torch231.7z" && _messageFAIL
     #! _wget_githubRelease "lllyasviel/stable-diffusion-webui-forge" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
-    wget 'https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z'
+    ! wget 'https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z' && _messageFAIL
 
     # May be possible to splice this git repository with a release of A1111/Forge for MSWindows .
     # https://github.com/Panchovix/stable-diffusion-webui-reForge
+    
+    cd "$functionEntryPWD"
+
+    #cksum webui_forge_cu121_torch231.7z
+    #_if_cygwin && sleep 22
+
+    return 0
+}
+_fetch_iconArt_forge-built() {
+    _messagePlain_nominal '_fetch_iconArt_forge-built'
+
+    local functionEntryPWD
+    functionEntryPWD="$PWD"
+
+    mkdir -p "$scriptBundle"
+    cd "$scriptBundle"
+    
+    rm -f "$scriptBundle"/run.log
+
+    rm -f "$scriptBundle"/webui_forge_cu121_torch21.7z
+    rm -f "$scriptBundle"/webui_forge_cu121_torch231.7z
+    rm -f "$scriptBundle"/webui_forge_cu124_torch24.7z
+    
+    ! _wget_githubRelease "mirage335-special/iconArt" "" "run.log" && _messageFAIL
+    ! _wget_githubRelease_join "mirage335-special/iconArt" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
+    
+    cd "$functionEntryPWD"
+
+    #cksum webui_forge_cu121_torch231.7z
+    #_if_cygwin && sleep 22
+
+    return 0
 }
 
-_fetch_iconArt() {
-    _messageNormal '_fetch_iconArt'
+_fetch_iconArt_models() {
+    _messagePlain_nominal '_fetch_iconArt_models'
     
-    local functionEntryPWD="$PWD"
+    local functionEntryPWD
     functionEntryPWD="$PWD"
 
     mkdir -p "$scriptBundle"
@@ -46222,6 +46268,7 @@ _fetch_iconArt() {
 
 
     #_fetch_iconArt_forge
+    #_fetch_iconArt_forge-built
 
 
     # noobaiXLNAIXL_epsilonPred05Version, Version: f2.0.1v1.10.1-previous-501-g668e87f9
@@ -46244,12 +46291,36 @@ _fetch_iconArt() {
     ! _wget_githubRelease "mirage335-special/iconArt_bundle" "" "FEGBA-Sprites-illus_Fp.safetensors" && _messageFAIL
 
 
+    #cksum ./*
+
+    cd "$functionEntryPWD"
+
+    #_if_cygwin && sleep 22
+
+    return 0
+}
+
+_fetch_iconArt() {
+    _messageNormal '_fetch_iconArt'
+    
+    local functionEntryPWD
+    functionEntryPWD="$PWD"
+
+    mkdir -p "$scriptBundle"
+    cd "$scriptBundle"
+
+    rm -f "$scriptBundle"/*
+
+    _fetch_iconArt_models
+    _fetch_iconArt_forge
+    #_fetch_iconArt_forge-built
+
+
     cksum ./*
 
     cd "$functionEntryPWD"
 
     _if_cygwin && sleep 22
-
     return 0
 }
 
@@ -46318,6 +46389,13 @@ _release_split_iconArt() {
 _refresh_anchors() {
     cp -a "$scriptAbsoluteFolder"/_anchor "$scriptAbsoluteFolder"/_fetch_iconArt
     cp -a "$scriptAbsoluteFolder"/_anchor.bat "$scriptAbsoluteFolder"/_fetch_iconArt.bat
+
+    cp -a "$scriptAbsoluteFolder"/_anchor "$scriptAbsoluteFolder"/_fetch_iconArt_models
+    cp -a "$scriptAbsoluteFolder"/_anchor.bat "$scriptAbsoluteFolder"/_fetch_iconArt_models.bat
+    cp -a "$scriptAbsoluteFolder"/_anchor "$scriptAbsoluteFolder"/_fetch_iconArt_forge
+    cp -a "$scriptAbsoluteFolder"/_anchor.bat "$scriptAbsoluteFolder"/_fetch_iconArt_forge.bat
+    cp -a "$scriptAbsoluteFolder"/_anchor "$scriptAbsoluteFolder"/_fetch_iconArt_forge-built
+    cp -a "$scriptAbsoluteFolder"/_anchor.bat "$scriptAbsoluteFolder"/_fetch_iconArt_forge-built.bat
 
     cp -a "$scriptAbsoluteFolder"/_anchor.bat "$scriptAbsoluteFolder"/_bin.bat
 }
