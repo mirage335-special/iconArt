@@ -59,7 +59,7 @@ jobs:
   #build_guard:
     #runs-on: ubuntu-latest
     #steps:
-      #- uses: actions/checkout@v2
+      #- uses: actions/checkout@v3
       #- uses: dev-drprasad/delete-tag-and-release@v1.0
         #with:
             #tag_name: build-${{ github.run_id }}-${{ github.run_attempt }} #(required) tag name to delete 
@@ -156,7 +156,7 @@ jobs:
           choco install 7zip.install -y
           #choco install rclone -y
           #choco install gh
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: statement! ls
         #if: ${{ github.event.inputs.skimfast != 'true' }}
         shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
@@ -510,7 +510,9 @@ jobs:
         remove-codeql: 'true'
         #remove-docker-images: ${{ github.event.inputs.runnerName != 'ubuntu-latest-h' }}
         remove-docker-images: 'true'
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+      with:
+        submodules: 'true'
     - name: _getMinimal_cloud
       shell: bash
       run: |
@@ -589,7 +591,9 @@ jobs:
         remove-codeql: 'true'
         #remove-docker-images: ${{ github.event.inputs.runnerName != 'ubuntu-latest-h' }}
         remove-docker-images: 'true'
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+      with:
+        submodules: 'true'
     - name: _getMinimal_cloud
       shell: bash
       run: |
