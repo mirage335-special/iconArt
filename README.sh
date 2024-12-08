@@ -97,6 +97,14 @@ _t '
 
 
 '
+_heading1 'Further'
+_paragraph_begin
+_t 'Apparently there has been some work to create a GUI for DISM, which may offer a more efficient way to mount and store NTFS disk images as a way to preserve Stable Diffusion Forge installations.'
+_paragraph_end
+_t '
+
+
+'
 _page
 _heading1 'Safety'
 _paragraph_begin
@@ -111,7 +119,11 @@ _heading1 'Reference'
 _paragraph_begin
 _t ' '
 _paragraph_end
-_t '
+_t 'https://github.com/mikecel79/DISMGUI
+
+https://www.youtube.com/watch?v=ZgMWHybjvvo
+https://github.com/Dede333?tab=repositories
+Seems to have been forked from mikecel79/DISMGUI .
 
 
 '

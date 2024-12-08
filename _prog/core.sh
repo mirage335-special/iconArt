@@ -62,8 +62,10 @@ _fetch_iconArt_forge-built() {
     #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
     #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "webui_forge_cu121_torch231.7z" && _messageFAIL
 
+    ##! _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messageFAIL
+    ##! _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messageFAIL
     #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messageFAIL
-    ! _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messageFAIL
+    ! _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "DUMMY_PASSWORD_x-webui_forge_cu121_torch231-static-Lenovo_P1_Gen6_i913900h_RTX4090.hc" && _messageFAIL
 
 
     #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "stable-diffusion-webui-forge-lllyasviel-linux.tar.xz" && _messageFAIL

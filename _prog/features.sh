@@ -21,8 +21,8 @@ _split_a1111forge-linux() {
 _fetch_iconArt_forge-static() {
     #mkdir -p ./_bundle
     #cd ./_bundle
-    #./ubiquitous_bash.sh _wget_githubRelease_join "soaringDistributions/iconArt-build" "static" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z"
-    #./ubiquitous_bash.sh _split_file_iconArt "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z"
+    #./ubiquitous_bash.sh _wget_githubRelease_join "soaringDistributions/iconArt-build" "static" "DUMMY_PASSWORD_x-webui_forge_cu121_torch231-static-Lenovo_P1_Gen6_i913900h_RTX4090.hc"
+    #./ubiquitous_bash.sh _split_file_iconArt "DUMMY_PASSWORD_x-webui_forge_cu121_torch231-static-Lenovo_P1_Gen6_i913900h_RTX4090.hc"
 
     _messagePlain_nominal '_fetch_iconArt_forge-static'
 
@@ -41,9 +41,11 @@ _fetch_iconArt_forge-static() {
     rm -f "$scriptBundle"/stable-diffusion-webui*
     
     
-    ! _wget_githubRelease_join "soaringDistributions/iconArt-build" "static" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messagePlain_bad 'bad: fail: wget/join' && _messageFAIL
-
-    ! _split_file_iconArt "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messagePlain_bad 'bad: fail: split' && _messageFAIL
+    #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "static" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messagePlain_bad 'bad: fail: wget/join' && _messageFAIL
+    #! _split_file_iconArt "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messagePlain_bad 'bad: fail: split' && _messageFAIL
+    
+    #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "static" "DUMMY_PASSWORD_x-webui_forge_cu121_torch231-static-Lenovo_P1_Gen6_i913900h_RTX4090.hc" && _messagePlain_bad 'bad: fail: wget/join' && _messageFAIL
+    #! _split_file_iconArt "DUMMY_PASSWORD_x-webui_forge_cu121_torch231-static-Lenovo_P1_Gen6_i913900h_RTX4090.hc" && _messagePlain_bad 'bad: fail: split' && _messageFAIL
     
     cd "$functionEntryPWD"
 

@@ -1,0 +1,7 @@
+
+rm -f ./webui_forge_cu121_torch231.7z ; 7z -y a -mtc=on -mta=on -mtm=on -t7z -m0=lzma2 -mmt=6 -mx=2 "./webui_forge_cu121_torch231.7z" "./webui_forge_cu121_torch231"
+
+7z -y x -mtc=on -mta=on -mtm=on -t7z -m0=lzma2 -mmt=6 -mx=2
+
+../ubiquitous_bash.sh _split_file_iconArt DUMMY_PASSWORD_x-webui_forge_cu121_torch231-static-Lenovo_P1_Gen6_i91390
+0h_RTX4090.hc
