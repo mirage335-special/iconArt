@@ -520,7 +520,7 @@ jobs:
     - name: _build_a1111forge-linux-run
       shell: bash
       run: |
-        #./ubiquitous_bash.sh _timeout 300 ./_lib/stable-diffusion-webui-forge-lllyasviel/webui.sh
+        #./ubiquitous_bash.sh _timeout 300 ./_lib/stable-diffusion-webui-forge-lllyasviel/webui.sh --skip-torch-cuda-test
         ./ubiquitous_bash.sh _build_a1111forge-linux-run
       timeout-minutes: 90
 
