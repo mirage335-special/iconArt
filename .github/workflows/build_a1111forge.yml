@@ -549,8 +549,8 @@ jobs:
         tag_name: build-${{ github.run_id }}-${{ github.run_attempt }}
         name: build
         files: |
-          "$scriptLocal"/stable-diffusion-webui-forge-lllyasviel-linux.tar.xz.part*
-          #"$scriptLocal"/stable-diffusion-webui-reForge-Panchovix-linux.tar.xz.part*
+          ./_local/stable-diffusion-webui-forge-lllyasviel-linux.tar.xz.part*
+          #./_local/stable-diffusion-webui-reForge-Panchovix-linux.tar.xz.part*
 
 
 
@@ -617,8 +617,7 @@ jobs:
         tag_name: build-${{ github.run_id }}-${{ github.run_attempt }}
         name: build
         files: |
-          ./_local/stable-diffusion-webui-forge-lllyasviel-linux.tar.xz.part*
-          #./_local/stable-diffusion-webui-reForge-Panchovix-linux.tar.xz.part*
+          ./_bundle/webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z.part*
 
 
 
