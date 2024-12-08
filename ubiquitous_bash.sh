@@ -36,7 +36,7 @@ _ub_cksum_special_derivativeScripts_contents() {
 #export ub_setScriptChecksum_disable='true'
 ( [[ -e "$0".nck ]] || [[ "${BASH_SOURCE[0]}" != "${0}" ]] || [[ "$1" == '--profile' ]] || [[ "$1" == '--script' ]] || [[ "$1" == '--call' ]] || [[ "$1" == '--return' ]] || [[ "$1" == '--devenv' ]] || [[ "$1" == '--shell' ]] || [[ "$1" == '--bypass' ]] || [[ "$1" == '--parent' ]] || [[ "$1" == '--embed' ]] || [[ "$1" == '--compressed' ]] || [[ "$0" == "/bin/bash" ]] || [[ "$0" == "-bash" ]] || [[ "$0" == "/usr/bin/bash" ]] || [[ "$0" == "bash" ]] ) && export ub_setScriptChecksum_disable='true'
 export ub_setScriptChecksum_header='2591634041'
-export ub_setScriptChecksum_contents='3915953732'
+export ub_setScriptChecksum_contents='3989445707'
 
 # CAUTION: Symlinks may cause problems. Disable this test for such cases if necessary.
 # WARNING: Performance may be crucial here.
@@ -46230,6 +46230,7 @@ _fetch_iconArt_forge-built() {
     cd "$scriptBundle"
     
     rm -f "$scriptBundle"/run.log
+    rm -f "$scriptBundle"/run*.log
 
     rm -f "$scriptBundle"/webui_forge_cu121_torch21.7z
     rm -f "$scriptBundle"/webui_forge_cu121_torch231.7z
@@ -46241,8 +46242,21 @@ _fetch_iconArt_forge-built() {
     
     #! _wget_githubRelease "mirage335-special/iconArt" "" "run.log" && _messageFAIL
     #! _wget_githubRelease_join "mirage335-special/iconArt" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
+    #! _wget_githubRelease_join "mirage335-special/iconArt" "internal" "webui_forge_cu121_torch231.7z" && _messageFAIL
+    
+    #! _wget_githubRelease "soaringDistributions/iconArt-build" "" "run.log" && _messageFAIL
+    #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
+    #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "webui_forge_cu121_torch231.7z" && _messageFAIL
 
-    ! _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messageFAIL
+    #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messageFAIL
+    ! _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messageFAIL
+
+
+    #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "stable-diffusion-webui-forge-lllyasviel-linux.tar.xz" && _messageFAIL
+    ! _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "stable-diffusion-webui-forge-lllyasviel-linux.tar.xz" && _messageFAIL
+
+    ##! _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "stable-diffusion-webui-reForge-Panchovix-linux.tar.xz" && _messageFAIL
+    #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "stable-diffusion-webui-reForge-Panchovix-linux.tar.xz" && _messageFAIL
     
     cd "$functionEntryPWD"
 
@@ -46433,6 +46447,61 @@ _main() {
 	_enter "$@"
 	
 	_stop
+}
+
+
+_build_a1111forge-linux-run() {
+    #./ubiquitous_bash.sh ...
+    _timeout 300 ./_lib/stable-diffusion-webui-forge-lllyasviel/webui.sh --skip-torch-cuda-test
+}
+
+_compress_a1111forge-linux() {
+    cd "$scriptLib"
+    #cd ./_lib
+    #tar -cf - stable-diffusion-webui-forge-lllyasviel | lz4 -z --fast=1 - "$scriptLocal"/stable-diffusion-webui-forge-lllyasviel-linux.tar.flx
+    env XZ_OPT="-0 -T0" tar -cJf "$scriptLocal"/stable-diffusion-webui-forge-lllyasviel-linux.tar.xz stable-diffusion-webui-forge-lllyasviel
+}
+
+_split_a1111forge-linux() {
+    #./ubiquitous_bash.sh ...
+    _split_file_iconArt "$scriptLocal"/stable-diffusion-webui-forge-lllyasviel-linux.tar.xz
+}
+
+
+
+_fetch_iconArt_forge-static() {
+    #mkdir -p ./_bundle
+    #cd ./_bundle
+    #./ubiquitous_bash.sh _wget_githubRelease_join "soaringDistributions/iconArt-build" "static" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z"
+    #./ubiquitous_bash.sh _split_file_iconArt "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z"
+
+    _messagePlain_nominal '_fetch_iconArt_forge-static'
+
+    local functionEntryPWD
+    functionEntryPWD="$PWD"
+
+    mkdir -p "$scriptBundle"
+    cd "$scriptBundle"
+    
+    rm -f "$scriptBundle"/run*
+
+    rm -f "$scriptBundle"/webui_forge_cu121_torch21-*
+    rm -f "$scriptBundle"/webui_forge_cu121_torch231-*
+    rm -f "$scriptBundle"/webui_forge_cu124_torch24-*
+
+    rm -f "$scriptBundle"/stable-diffusion-webui*
+    
+    
+    ! _wget_githubRelease_join "soaringDistributions/iconArt-build" "static" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messagePlain_bad 'bad: fail: wget/join' && _messageFAIL
+
+    ! _split_file_iconArt "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messagePlain_bad 'bad: fail: split' && _messageFAIL
+    
+    cd "$functionEntryPWD"
+
+    #cksum webui_forge_cu121_torch231.7z
+    #_if_cygwin && sleep 22
+
+    return 0
 }
 
 #currentReversePort=""
@@ -49676,6 +49745,9 @@ _compile_bash_installation_prog() {
 
 _compile_bash_program_prog() {	
 	export includeScriptList
+
+	includeScriptList+=( features.sh )
+
 	true
 }
 

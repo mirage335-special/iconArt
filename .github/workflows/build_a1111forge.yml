@@ -17,17 +17,24 @@ permissions:
   security-events: none
   statuses: read
 
-
+# GPU has apparently not been compatible enough anyway.
 on:
   workflow_dispatch:
     inputs:
       runnerNameMSW:
         required: false
-        default: windows-gpu
+        default: windows-latest
         type: choice
         options:
         - windows-gpu
         - windows-latest
+      runnerNameLinux:
+        required: false
+        default: ubuntu-latest
+        type: choice
+        options:
+        - ubuntu-latest
+        - ubuntu-latest-m
   # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
   #schedule:
     ###- cron: '5 1 * * 6'
@@ -58,7 +65,7 @@ jobs:
             #tag_name: build-${{ github.run_id }}-${{ github.run_attempt }} #(required) tag name to delete 
             #github_token: ${{ secrets.GITHUB_TOKEN }}
             #delete_release: true #(optional) default: true 
-  build_a1111forge:
+  build_a1111forge-msw:
     #needs: [build_guard, build_compressed]
     runs-on: ${{ github.event.inputs.runnerNameMSW == '' && 'windows-latest' || github.event.inputs.runnerNameMSW }}
     steps:
@@ -251,7 +258,12 @@ jobs:
           cd ./_bundle/webui_forge_cu121_torch231
           call environment.bat
           cd webui
-          call webui-user.bat
+          REM call webui-user.bat
+          set PYTHON=
+          set GIT=
+          set VENV_DIR=
+          set COMMANDLINE_ARGS="--skip-torch-cuda-test"
+          call webui.bat
           "@
           # Write the commands to a batch file
           Set-Content -Path 'script.bat' -Value $commands
@@ -317,7 +329,7 @@ jobs:
 
 
 
-      - name: release! run.log
+      - name: release! run-msw.log
         uses: softprops/action-gh-release@v1
         with:
           tag_name: build-${{ github.run_id }}-${{ github.run_attempt }}
@@ -337,7 +349,7 @@ jobs:
         timeout-minutes: 240
         run: |
           cd ./_bundle
-          & "C:\Program Files\7-Zip\7z.exe" -y a -t7z -m0=lzma2 -mmt=6 -mx=9 "./webui_forge_cu121_torch231.7z" "./webui_forge_cu121_torch231"
+          & "C:\Program Files\7-Zip\7z.exe" -y a -t7z -m0=lzma2 -mmt=6 -mx=9 "./webui_forge_cu121_torch231-msw.7z" "./webui_forge_cu121_torch231"
 
 
 
@@ -375,7 +387,7 @@ jobs:
           ##cd C:\core\infrastructure\ubiquitous_bash\
           ##cd ./_local/ubcp
           #cd ./
-          #./_bin _split_file_iconArt "./_bundle/webui_forge_cu121_torch231.7z" | tee /split.log
+          #./_bin _split_file_iconArt "./_bundle/webui_forge_cu121_torch231-msw.7z" | tee /split.log
           #$SEL = cat /split.log | Select-String -Pattern 'FAIL' -CaseSensitive -SimpleMatch
           #if ($SEL -ne $null)
           #{
@@ -393,7 +405,7 @@ jobs:
       - name: split
         shell: C:\pwsh\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "C:\pwsh\pwsh_handler.ps1" "{0}"
         run: |
-          $file = './_bundle/webui_forge_cu121_torch231.7z'
+          $file = './_bundle/webui_forge_cu121_torch231-msw.7z'
           $chunkSize = 1856000000
 
           for ($currentIteration = 0; $currentIteration -le 24; $currentIteration++) {
@@ -433,7 +445,7 @@ jobs:
           ##cd C:\core\infrastructure\ubiquitous_bash\
           ##cd ./_local/ubcp
           #cd ./
-          #./_bin _release_split_iconArt "./_bundle/webui_forge_cu121_torch231.7z" build-${{ github.run_id }}-${{ github.run_attempt }} | tee /release.log
+          #./_bin _release_split_iconArt "./_bundle/webui_forge_cu121_torch231-msw.7z" build-${{ github.run_id }}-${{ github.run_attempt }} | tee /release.log
           #$SEL = cat /release.log | Select-String -Pattern 'FAIL' -CaseSensitive -SimpleMatch
           #if ($SEL -ne $null)
           #{
@@ -454,7 +466,165 @@ jobs:
           tag_name: build-${{ github.run_id }}-${{ github.run_attempt }}
           name: build
           files: |
-            ./_bundle/webui_forge_cu121_torch231.7z.part*
+            ./_bundle/webui_forge_cu121_torch231-msw.7z.part*
+
+
+
+
+
+
+
+
+
+
+
+
+  build_a1111forge-linux:
+    runs-on: ${{ github.event.inputs.runnerNameLinux == '' && 'ubuntu-latest' || github.event.inputs.runnerNameLinux }}
+    #runs-on: ubuntu-latest
+    steps:
+    - name: users
+      shell: bash
+      run: |
+        sudo -u ubuntu -n bash -c 'sudo -n useradd runner --non-unique -u $UID -g $UID' || true
+        sudo -u ubuntu -n bash -c 'sudo -n groupadd runner --non-unique -g $UID' || true
+        sudo -u runner -n bash -c 'sudo -n echo $USER $UID' || true
+        true
+      # Apparently may increase Github Actions 'runner' to 59GB (instead of 31GB) .
+    - name: Maximize build space
+      if: ${{ github.event.inputs.runnerNameLinux == 'ubuntu-latest' }}
+      uses: easimon/maximize-build-space@master
+      with:
+        #root-reserve-mb: 1625
+        root-reserve-mb: 6000
+        #temp-reserve-mb: 50
+        temp-reserve-mb: 6000
+        swap-size-mb: 2
+        #remove-dotnet: ${{ github.event.inputs.runnerName != 'ubuntu-latest-h' }}
+        remove-dotnet: 'true'
+        #remove-android: ${{ github.event.inputs.runnerName != 'ubuntu-latest-h' }}
+        remove-android: 'true'
+        #remove-haskell: ${{ github.event.inputs.runnerName != 'ubuntu-latest-h' }}
+        remove-haskell: 'true'
+        #remove-codeql: ${{ github.event.inputs.runnerName != 'ubuntu-latest-h' }}
+        remove-codeql: 'true'
+        #remove-docker-images: ${{ github.event.inputs.runnerName != 'ubuntu-latest-h' }}
+        remove-docker-images: 'true'
+    - uses: actions/checkout@v2
+    - name: _getMinimal_cloud
+      shell: bash
+      run: |
+        ./ubiquitous_bash.sh _getMinimal_cloud
+      timeout-minutes: 90
+
+    - name: _build_a1111forge-linux-run
+      shell: bash
+      run: |
+        #./ubiquitous_bash.sh _timeout 300 ./_lib/stable-diffusion-webui-forge-lllyasviel/webui.sh
+        ./ubiquitous_bash.sh _build_a1111forge-linux-run
+      timeout-minutes: 90
+
+    - name: _compress_a1111forge-linux
+      shell: bash
+      run: |
+        #cd ./_lib
+        #env XZ_OPT="-0 -T0" tar -cJf "$scriptLocal"/stable-diffusion-webui-forge-lllyasviel-linux.tar.xz stable-diffusion-webui-forge-lllyasviel
+        ./ubiquitous_bash.sh _compress_a1111forge-linux
+      timeout-minutes: 90
+
+
+    - name: _split_a1111forge-linux
+      shell: bash
+      run: |
+        #./ubiquitous_bash.sh _split_file_iconArt "$scriptLocal"/stable-diffusion-webui-forge-lllyasviel-linux.tar.xz
+        ./ubiquitous_bash.sh _split_a1111forge-linux
+      timeout-minutes: 90
+
+
+    - name: release! files
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: build-${{ github.run_id }}-${{ github.run_attempt }}
+        name: build
+        files: |
+          "$scriptLocal"/stable-diffusion-webui-forge-lllyasviel-linux.tar.xz.part*
+          #"$scriptLocal"/stable-diffusion-webui-reForge-Panchovix-linux.tar.xz.part*
+
+
+
+
+
+
+  build_a1111forge-fromStatic:
+    runs-on: ${{ github.event.inputs.runnerNameLinux == '' && 'ubuntu-latest' || github.event.inputs.runnerNameLinux }}
+    #runs-on: ubuntu-latest
+    #runs-on: ubuntu-20.04
+    #runs-on: buildjet-2vcpu-ubuntu-2004
+    #runs-on: buildjet-64vcpu-ubuntu-2004
+    steps:
+    - name: users
+      shell: bash
+      run: |
+        sudo -u ubuntu -n bash -c 'sudo -n useradd runner --non-unique -u $UID -g $UID' || true
+        sudo -u ubuntu -n bash -c 'sudo -n groupadd runner --non-unique -g $UID' || true
+        sudo -u runner -n bash -c 'sudo -n echo $USER $UID' || true
+        true
+      # Apparently may increase Github Actions 'runner' to 59GB (instead of 31GB) .
+    - name: Maximize build space
+      if: ${{ github.event.inputs.runnerNameLinux == 'ubuntu-latest' }}
+      uses: easimon/maximize-build-space@master
+      with:
+        #root-reserve-mb: 1625
+        root-reserve-mb: 6000
+        #temp-reserve-mb: 50
+        temp-reserve-mb: 6000
+        swap-size-mb: 2
+        #remove-dotnet: ${{ github.event.inputs.runnerName != 'ubuntu-latest-h' }}
+        remove-dotnet: 'true'
+        #remove-android: ${{ github.event.inputs.runnerName != 'ubuntu-latest-h' }}
+        remove-android: 'true'
+        #remove-haskell: ${{ github.event.inputs.runnerName != 'ubuntu-latest-h' }}
+        remove-haskell: 'true'
+        #remove-codeql: ${{ github.event.inputs.runnerName != 'ubuntu-latest-h' }}
+        remove-codeql: 'true'
+        #remove-docker-images: ${{ github.event.inputs.runnerName != 'ubuntu-latest-h' }}
+        remove-docker-images: 'true'
+    - uses: actions/checkout@v2
+    - name: _getMinimal_cloud
+      shell: bash
+      run: |
+        ./ubiquitous_bash.sh _getMinimal_cloud
+      timeout-minutes: 90
+
+    - name: _fetch_iconArt_forge-static
+      shell: bash
+      run: |
+        #mkdir -p ./_bundle
+        #cd ./_bundle
+        #./ubiquitous_bash.sh _wget_githubRelease_join "soaringDistributions/iconArt-build" "static" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z"
+        #./ubiquitous_bash.sh _split_file_iconArt "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z"
+        ./ubiquitous_bash.sh _fetch_iconArt_forge-static
+      timeout-minutes: 90
+
+
+    - name: release! files
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: build-${{ github.run_id }}-${{ github.run_attempt }}
+        name: build
+        files: |
+          "$scriptLocal"/stable-diffusion-webui-forge-lllyasviel-linux.tar.xz.part*
+          #"$scriptLocal"/stable-diffusion-webui-reForge-Panchovix-linux.tar.xz.part*
+
+
+
+
+
+
+
+
+
+
 
 
 
