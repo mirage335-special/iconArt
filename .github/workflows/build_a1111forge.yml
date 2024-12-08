@@ -617,8 +617,8 @@ jobs:
         tag_name: build-${{ github.run_id }}-${{ github.run_attempt }}
         name: build
         files: |
-          "$scriptLocal"/stable-diffusion-webui-forge-lllyasviel-linux.tar.xz.part*
-          #"$scriptLocal"/stable-diffusion-webui-reForge-Panchovix-linux.tar.xz.part*
+          ./_local/stable-diffusion-webui-forge-lllyasviel-linux.tar.xz.part*
+          #./_local/stable-diffusion-webui-reForge-Panchovix-linux.tar.xz.part*
 
 
 
