@@ -36,7 +36,7 @@ _ub_cksum_special_derivativeScripts_contents() {
 #export ub_setScriptChecksum_disable='true'
 ( [[ -e "$0".nck ]] || [[ "${BASH_SOURCE[0]}" != "${0}" ]] || [[ "$1" == '--profile' ]] || [[ "$1" == '--script' ]] || [[ "$1" == '--call' ]] || [[ "$1" == '--return' ]] || [[ "$1" == '--devenv' ]] || [[ "$1" == '--shell' ]] || [[ "$1" == '--bypass' ]] || [[ "$1" == '--parent' ]] || [[ "$1" == '--embed' ]] || [[ "$1" == '--compressed' ]] || [[ "$0" == "/bin/bash" ]] || [[ "$0" == "-bash" ]] || [[ "$0" == "/usr/bin/bash" ]] || [[ "$0" == "bash" ]] ) && export ub_setScriptChecksum_disable='true'
 export ub_setScriptChecksum_header='2591634041'
-export ub_setScriptChecksum_contents='3989445707'
+export ub_setScriptChecksum_contents='3078463326'
 
 # CAUTION: Symlinks may cause problems. Disable this test for such cases if necessary.
 # WARNING: Performance may be crucial here.
@@ -46240,11 +46240,11 @@ _fetch_iconArt_forge-built() {
     rm -f "$scriptBundle"/webui_forge_cu121_torch231-*.7z
     rm -f "$scriptBundle"/webui_forge_cu124_torch24-*.7z
     
-    #! _wget_githubRelease "mirage335-special/iconArt" "" "run.log" && _messageFAIL
+    #! _wget_githubRelease "mirage335-special/iconArt" "" "run-msw.log" && _messageFAIL
     #! _wget_githubRelease_join "mirage335-special/iconArt" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
     #! _wget_githubRelease_join "mirage335-special/iconArt" "internal" "webui_forge_cu121_torch231.7z" && _messageFAIL
     
-    #! _wget_githubRelease "soaringDistributions/iconArt-build" "" "run.log" && _messageFAIL
+    #! _wget_githubRelease "soaringDistributions/iconArt-build" "" "run-msw.log" && _messageFAIL
     #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
     #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "webui_forge_cu121_torch231.7z" && _messageFAIL
 

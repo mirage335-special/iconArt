@@ -54,11 +54,11 @@ _fetch_iconArt_forge-built() {
     rm -f "$scriptBundle"/webui_forge_cu121_torch231-*.7z
     rm -f "$scriptBundle"/webui_forge_cu124_torch24-*.7z
     
-    #! _wget_githubRelease "mirage335-special/iconArt" "" "run.log" && _messageFAIL
+    #! _wget_githubRelease "mirage335-special/iconArt" "" "run-msw.log" && _messageFAIL
     #! _wget_githubRelease_join "mirage335-special/iconArt" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
     #! _wget_githubRelease_join "mirage335-special/iconArt" "internal" "webui_forge_cu121_torch231.7z" && _messageFAIL
     
-    #! _wget_githubRelease "soaringDistributions/iconArt-build" "" "run.log" && _messageFAIL
+    #! _wget_githubRelease "soaringDistributions/iconArt-build" "" "run-msw.log" && _messageFAIL
     #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
     #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "webui_forge_cu121_torch231.7z" && _messageFAIL
 
