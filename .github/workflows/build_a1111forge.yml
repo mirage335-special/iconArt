@@ -530,7 +530,7 @@ jobs:
       shell: bash
       run: |
         #cd ./_lib
-        #env XZ_OPT="-0 -T0" tar -cJf "$scriptLocal"/stable-diffusion-webui-forge-lllyasviel-linux.tar.xz stable-diffusion-webui-forge-lllyasviel
+        #env XZ_OPT="-0 -T0" tar -cJf ./_local/stable-diffusion-webui-forge-lllyasviel-linux.tar.xz stable-diffusion-webui-forge-lllyasviel
         ./ubiquitous_bash.sh _compress_a1111forge-linux
       timeout-minutes: 90
 
@@ -538,7 +538,7 @@ jobs:
     - name: _split_a1111forge-linux
       shell: bash
       run: |
-        #./ubiquitous_bash.sh _split_file_iconArt "$scriptLocal"/stable-diffusion-webui-forge-lllyasviel-linux.tar.xz
+        #./ubiquitous_bash.sh _split_file_iconArt ./_local/stable-diffusion-webui-forge-lllyasviel-linux.tar.xz
         ./ubiquitous_bash.sh _split_a1111forge-linux
       timeout-minutes: 90
 
@@ -557,7 +557,7 @@ jobs:
       run: |
         #gh release create build-${{ github.run_id }}-${{ github.run_attempt }} --title build --notes ""
         bash -c '
-        for currentFile in /_local/stable-diffusion-webui-forge-lllyasviel-linux.tar.xz.part*
+        for currentFile in ./_local/stable-diffusion-webui-forge-lllyasviel-linux.tar.xz.part*
         do
           ./ubiquitous_bash.sh _stopwatch gh release upload build-${{ github.run_id }}-${{ github.run_attempt }} "$currentFile" &
           while [[ $(jobs | wc -l) -ge 3 ]]
@@ -575,7 +575,7 @@ jobs:
       run: |
         #gh release create build-${{ github.run_id }}-${{ github.run_attempt }} --title build --notes ""
         bash -c '
-        for currentFile in /_local/stable-diffusion-webui-reForge-Panchovix-linux.tar.xz.part*
+        for currentFile in ./_local/stable-diffusion-webui-reForge-Panchovix-linux.tar.xz.part*
         do
           ./ubiquitous_bash.sh _stopwatch gh release upload build-${{ github.run_id }}-${{ github.run_attempt }} "$currentFile" &
           while [[ $(jobs | wc -l) -ge 3 ]]
