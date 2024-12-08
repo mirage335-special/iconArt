@@ -543,14 +543,53 @@ jobs:
       timeout-minutes: 90
 
 
-    - name: release! files
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: build-${{ github.run_id }}-${{ github.run_attempt }}
-        name: build
-        files: |
-          ./_local/stable-diffusion-webui-forge-lllyasviel-linux.tar.xz.part*
-          #./_local/stable-diffusion-webui-reForge-Panchovix-linux.tar.xz.part*
+    #- name: release! files
+      #uses: softprops/action-gh-release@v1
+      #with:
+        #tag_name: build-${{ github.run_id }}-${{ github.run_attempt }}
+        #name: build
+        #files: |
+          #./_local/stable-diffusion-webui-forge-lllyasviel-linux.tar.xz.part*
+          ##./_local/stable-diffusion-webui-reForge-Panchovix-linux.tar.xz.part*
+
+    - name: release! files - stable-diffusion-webui-forge-lllyasviel-linux.tar.xz
+      shell: bash
+      run: |
+        #gh release create build-${{ github.run_id }}-${{ github.run_attempt }} --title build --notes ""
+        bash -c '
+        for currentFile in /_local/stable-diffusion-webui-forge-lllyasviel-linux.tar.xz.part*
+        do
+          ./ubiquitous_bash.sh _stopwatch gh release upload build-${{ github.run_id }}-${{ github.run_attempt }} "$currentFile" &
+          while [[ $(jobs | wc -l) -ge 3 ]]
+          do
+            sleep 2
+          done
+        done
+        wait
+        '
+      env:
+        GH_TOKEN: ${{ github.token }}
+
+    - name: release! files - stable-diffusion-webui-reForge-Panchovix-linux.tar.xz
+      shell: bash
+      run: |
+        #gh release create build-${{ github.run_id }}-${{ github.run_attempt }} --title build --notes ""
+        bash -c '
+        for currentFile in /_local/stable-diffusion-webui-reForge-Panchovix-linux.tar.xz.part*
+        do
+          ./ubiquitous_bash.sh _stopwatch gh release upload build-${{ github.run_id }}-${{ github.run_attempt }} "$currentFile" &
+          while [[ $(jobs | wc -l) -ge 3 ]]
+          do
+            sleep 2
+          done
+        done
+        wait
+        '
+      env:
+        GH_TOKEN: ${{ github.token }}
+
+
+
 
 
 
