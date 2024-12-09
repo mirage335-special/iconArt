@@ -36,7 +36,7 @@ _ub_cksum_special_derivativeScripts_contents() {
 #export ub_setScriptChecksum_disable='true'
 ( [[ -e "$0".nck ]] || [[ "${BASH_SOURCE[0]}" != "${0}" ]] || [[ "$1" == '--profile' ]] || [[ "$1" == '--script' ]] || [[ "$1" == '--call' ]] || [[ "$1" == '--return' ]] || [[ "$1" == '--devenv' ]] || [[ "$1" == '--shell' ]] || [[ "$1" == '--bypass' ]] || [[ "$1" == '--parent' ]] || [[ "$1" == '--embed' ]] || [[ "$1" == '--compressed' ]] || [[ "$0" == "/bin/bash" ]] || [[ "$0" == "-bash" ]] || [[ "$0" == "/usr/bin/bash" ]] || [[ "$0" == "bash" ]] ) && export ub_setScriptChecksum_disable='true'
 export ub_setScriptChecksum_header='2591634041'
-export ub_setScriptChecksum_contents='3804630093'
+export ub_setScriptChecksum_contents='3262443146'
 
 # CAUTION: Symlinks may cause problems. Disable this test for such cases if necessary.
 # WARNING: Performance may be crucial here.
@@ -46497,8 +46497,8 @@ _fetch_iconArt_forge-static() {
     #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "static" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messagePlain_bad 'bad: fail: wget/join' && _messageFAIL
     #! _split_file_iconArt "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messagePlain_bad 'bad: fail: split' && _messageFAIL
     
-    #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "static" "DUMMY_PASSWORD_x-webui_forge_cu121_torch231-static-Lenovo_P1_Gen6_i913900h_RTX4090.hc" && _messagePlain_bad 'bad: fail: wget/join' && _messageFAIL
-    #! _split_file_iconArt "DUMMY_PASSWORD_x-webui_forge_cu121_torch231-static-Lenovo_P1_Gen6_i913900h_RTX4090.hc" && _messagePlain_bad 'bad: fail: split' && _messageFAIL
+    ! _wget_githubRelease_join "soaringDistributions/iconArt-build" "static" "DUMMY_PASSWORD_x-webui_forge_cu121_torch231-static-Lenovo_P1_Gen6_i913900h_RTX4090.hc" && _messagePlain_bad 'bad: fail: wget/join' && _messageFAIL
+    ! _split_file_iconArt "DUMMY_PASSWORD_x-webui_forge_cu121_torch231-static-Lenovo_P1_Gen6_i913900h_RTX4090.hc" && _messagePlain_bad 'bad: fail: split' && _messageFAIL
     
     cd "$functionEntryPWD"
 
