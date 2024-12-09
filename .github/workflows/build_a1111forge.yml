@@ -650,16 +650,32 @@ jobs:
       timeout-minutes: 90
 
 
-    - name: release! files
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: build-${{ github.run_id }}-${{ github.run_attempt }}
-        name: build
-        files: |
-          ./_bundle/DUMMY_PASSWORD_x-webui_forge_cu121_torch231-static-Lenovo_P1_Gen6_i913900h_RTX4090.hc.part*
+    #- name: release! files
+      #uses: softprops/action-gh-release@v1
+      #with:
+        #tag_name: build-${{ github.run_id }}-${{ github.run_attempt }}
+        #name: build
+        #files: |
+          #./_bundle/DUMMY_PASSWORD_x-webui_forge_cu121_torch231-static-Lenovo_P1_Gen6_i913900h_RTX4090.hc.part*
 
 
-
+    - name: release! files - DUMMY_PASSWORD_x-webui_forge_cu121_torch231-static-Lenovo_P1_Gen6_i913900h_RTX4090.hc
+      shell: bash
+      run: |
+        #gh release create build-${{ github.run_id }}-${{ github.run_attempt }} --title build --notes ""
+        bash -c '
+        for currentFile in ./_bundle/DUMMY_PASSWORD_x-webui_forge_cu121_torch231-static-Lenovo_P1_Gen6_i913900h_RTX4090.hc.part*
+        do
+          ./ubiquitous_bash.sh _stopwatch gh release upload build-${{ github.run_id }}-${{ github.run_attempt }} "$currentFile" &
+          while [[ $(jobs | wc -l) -ge 3 ]]
+          do
+            sleep 2
+          done
+        done
+        wait
+        '
+      env:
+        GH_TOKEN: ${{ github.token }}
 
 
 
