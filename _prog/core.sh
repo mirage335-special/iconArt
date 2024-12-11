@@ -55,24 +55,24 @@ _fetch_iconArt_forge-built() {
     rm -f "$scriptBundle"/webui_forge_cu124_torch24-*.7z
     
     #! _wget_githubRelease "mirage335-special/iconArt" "" "run-msw.log" && _messageFAIL
-    #! _wget_githubRelease_join "mirage335-special/iconArt" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
-    #! _wget_githubRelease_join "mirage335-special/iconArt" "internal" "webui_forge_cu121_torch231.7z" && _messageFAIL
+    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
+    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt" "internal" "webui_forge_cu121_torch231.7z" && _messageFAIL
     
     #! _wget_githubRelease "soaringDistributions/iconArt-build" "" "run-msw.log" && _messageFAIL
-    #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
-    #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "webui_forge_cu121_torch231.7z" && _messageFAIL
+    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
+    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "webui_forge_cu121_torch231.7z" && _messageFAIL
 
-    ##! _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messageFAIL
-    ##! _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messageFAIL
-    #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messageFAIL
-    ! _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "DUMMY_PASSWORD_x-webui_forge_cu121_torch231-static-Lenovo_P1_Gen6_i913900h_RTX4090.hc" && _messageFAIL
+    ##! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messageFAIL
+    ##! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messageFAIL
+    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messageFAIL
+    ! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "DUMMY_PASSWORD_x-webui_forge_cu121_torch231-static-Lenovo_P1_Gen6_i913900h_RTX4090.hc" && _messageFAIL
 
 
-    #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "stable-diffusion-webui-forge-lllyasviel-linux.tar.xz" && _messageFAIL
-    ! _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "stable-diffusion-webui-forge-lllyasviel-linux.tar.xz" && _messageFAIL
+    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "stable-diffusion-webui-forge-lllyasviel-linux.tar.xz" && _messageFAIL
+    ! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "stable-diffusion-webui-forge-lllyasviel-linux.tar.xz" && _messageFAIL
 
-    ##! _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "stable-diffusion-webui-reForge-Panchovix-linux.tar.xz" && _messageFAIL
-    #! _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "stable-diffusion-webui-reForge-Panchovix-linux.tar.xz" && _messageFAIL
+    ##! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "stable-diffusion-webui-reForge-Panchovix-linux.tar.xz" && _messageFAIL
+    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "stable-diffusion-webui-reForge-Panchovix-linux.tar.xz" && _messageFAIL
     
     cd "$functionEntryPWD"
 
@@ -110,16 +110,16 @@ _fetch_iconArt_models() {
     # noobaiXLNAIXL_epsilonPred05Version, Version: f2.0.1v1.10.1-previous-501-g668e87f9
     #_messagePlain_request https://civitai.com/models/833294?modelVersionId=968495
     #! _aria2c_iconArt "https://huggingface.co/nnnn1111/models/resolve/main/noobaiXLNAIXL_epsilonPred05Version.safetensors" "noobaiXLNAIXL_epsilonPred05Version.safetensors" && _messageFAIL
-    ! _wget_githubRelease_join "mirage335-special/iconArt_bundle" "" "noobaiXLNAIXL_epsilonPred05Version.safetensors" && _messageFAIL
-    #! _wget_githubRelease_join "mirage335-special/iconArt_bundle" "internal" "noobaiXLNAIXL_epsilonPred05Version.safetensors" && _messageFAIL
+    ! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "" "noobaiXLNAIXL_epsilonPred05Version.safetensors" && _messageFAIL
+    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "internal" "noobaiXLNAIXL_epsilonPred05Version.safetensors" && _messageFAIL
     
     # illustriousXL_v01, Version: f2.0.1v1.10.1-previous-501-g668e87f9
     #https://huggingface.co/OnomaAIResearch/Illustrious-xl-early-release-v0/blob/main/Illustrious-XL-v0.1.safetensors
 
     # animagineXLV31_v31, Version: f2.0.1v1.10.1-previous-501-g668e87f9, Model hash: cedf157a80
     ! _aria2c_iconArt "https://huggingface.co/cagliostrolab/animagine-xl-3.1/resolve/main/animagine-xl-3.1.safetensors" "animagine-xl-3.1.safetensors" && _messageFAIL
-    #! _wget_githubRelease_join "mirage335-special/iconArt_bundle" "" "animagine-xl-3.1.safetensors" && _messageFAIL
-    #! _wget_githubRelease_join "mirage335-special/iconArt_bundle" "internal" "animagine-xl-3.1.safetensors" && _messageFAIL
+    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "" "animagine-xl-3.1.safetensors" && _messageFAIL
+    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "internal" "animagine-xl-3.1.safetensors" && _messageFAIL
     
 
     # FEGBA-Sprites-illus_Fp
