@@ -1,7 +1,13 @@
 ##### Core
 
 
+_fetch_iconArt_forge-rm() {
+    #rm -f "$scriptBundle"/run.log
 
+    rm -f "$scriptBundle"/webui_forge_cu121_torch21.7z
+    rm -f "$scriptBundle"/webui_forge_cu121_torch231.7z
+    rm -f "$scriptBundle"/webui_forge_cu124_torch24.7z
+}
 _fetch_iconArt_forge() {
     _messagePlain_nominal '_fetch_iconArt_forge'
 
@@ -11,18 +17,15 @@ _fetch_iconArt_forge() {
     mkdir -p "$scriptBundle"
     cd "$scriptBundle"
     
-    rm -f "$scriptBundle"/run.log
-
-    rm -f "$scriptBundle"/webui_forge_cu121_torch21.7z
-    rm -f "$scriptBundle"/webui_forge_cu121_torch231.7z
-    rm -f "$scriptBundle"/webui_forge_cu124_torch24.7z
+    _fetch_iconArt_forge-rm
 
     # Latest releases include MSWindows support and an installation of A1111/Forge for MSWindows .
     # WARNING: May be necessary to run 'update.bat' and 'run.bat' .
     # https://github.com/lllyasviel/stable-diffusion-webui-forge?tab=readme-ov-file#installing-forge
-    #! _aria2c_iconArt "https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z" "webui_forge_cu121_torch231.7z" && _messageFAIL
-    #! _wget_githubRelease "lllyasviel/stable-diffusion-webui-forge" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
-    ! wget 'https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z' && _messageFAIL
+    ! [[ -e webui_forge_cu121_torch231.7z ]] && ! _aria2c_iconArt "https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z" "webui_forge_cu121_torch231.7z" && _fetch_iconArt_forge-rm
+    #! [[ -e webui_forge_cu121_torch231.7z ]] && ! _wget_githubRelease "lllyasviel/stable-diffusion-webui-forge" "" "webui_forge_cu121_torch231.7z" && _fetch_iconArt_forge-rm
+    ! [[ -e webui_forge_cu121_torch231.7z ]] && ! wget 'https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z' && _fetch_iconArt_forge-rm
+    ! [[ -e webui_forge_cu121_torch231.7z ]] && _messageFAIL
 
     # May be possible to splice this git repository with a release of A1111/Forge for MSWindows .
     # https://github.com/Panchovix/stable-diffusion-webui-reForge
@@ -46,38 +49,39 @@ _fetch_iconArt_forge-built() {
     rm -f "$scriptBundle"/run.log
     rm -f "$scriptBundle"/run*.log
 
-    rm -f "$scriptBundle"/webui_forge_cu121_torch21.7z
-    rm -f "$scriptBundle"/webui_forge_cu121_torch231.7z
-    rm -f "$scriptBundle"/webui_forge_cu124_torch24.7z
+    rm -f "$scriptBundle"/DUMMY_PASSWORD_x-webui_forge_cu121_torch231-static-Lenovo_P1_Gen6_i913900h_RTX4090.hc
+    rm -f "$scriptBundle"/stable-diffusion-webui-forge-lllyasviel-linux.tar.xz
 
-    rm -f "$scriptBundle"/webui_forge_cu121_torch21-*.7z
-    rm -f "$scriptBundle"/webui_forge_cu121_torch231-*.7z
-    rm -f "$scriptBundle"/webui_forge_cu124_torch24-*.7z
-    
-    #! _wget_githubRelease "mirage335-special/iconArt" "" "run-msw.log" && _messageFAIL
-    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
-    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt" "internal" "webui_forge_cu121_torch231.7z" && _messageFAIL
-    
-    #! _wget_githubRelease "soaringDistributions/iconArt-build" "" "run-msw.log" && _messageFAIL
-    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
-    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "webui_forge_cu121_torch231.7z" && _messageFAIL
-
-    ##! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messageFAIL
-    ##! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messageFAIL
-    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messageFAIL
     ! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "DUMMY_PASSWORD_x-webui_forge_cu121_torch231-static-Lenovo_P1_Gen6_i913900h_RTX4090.hc" && _messageFAIL
-
-
-    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "stable-diffusion-webui-forge-lllyasviel-linux.tar.xz" && _messageFAIL
+    
     ! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "stable-diffusion-webui-forge-lllyasviel-linux.tar.xz" && _messageFAIL
 
-    ##! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "stable-diffusion-webui-reForge-Panchovix-linux.tar.xz" && _messageFAIL
-    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "stable-diffusion-webui-reForge-Panchovix-linux.tar.xz" && _messageFAIL
+
+    # scrap
+    ##! _wget_githubRelease "mirage335-special/iconArt" "" "run-msw.log" && _messageFAIL
+    ##! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
+    ##! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt" "internal" "webui_forge_cu121_torch231.7z" && _messageFAIL
+    
+    ##! _wget_githubRelease "soaringDistributions/iconArt-build" "" "run-msw.log" && _messageFAIL
+    ##! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "webui_forge_cu121_torch231.7z" && _messageFAIL
+    ##! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "webui_forge_cu121_torch231.7z" && _messageFAIL
+
+    ###! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messageFAIL
+    ###! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messageFAIL
+    ##! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "webui_forge_cu121_torch231-Lenovo_P1_Gen6_i913900h_RTX4090.7z" && _messageFAIL
+    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "DUMMY_PASSWORD_x-webui_forge_cu121_torch231-static-Lenovo_P1_Gen6_i913900h_RTX4090.hc" && _messageFAIL
+
+
+    ##! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "stable-diffusion-webui-forge-lllyasviel-linux.tar.xz" && _messageFAIL
+    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "stable-diffusion-webui-forge-lllyasviel-linux.tar.xz" && _messageFAIL
+
+    ###! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "" "stable-diffusion-webui-reForge-Panchovix-linux.tar.xz" && _messageFAIL
+    ##! "$scriptAbsoluteLocation" _wget_githubRelease_join "soaringDistributions/iconArt-build" "internal" "stable-diffusion-webui-reForge-Panchovix-linux.tar.xz" && _messageFAIL
     
     cd "$functionEntryPWD"
 
-    #cksum webui_forge_cu121_torch231.7z
-    #_if_cygwin && sleep 22
+    ##cksum webui_forge_cu121_torch231.7z
+    ##_if_cygwin && sleep 22
 
     return 0
 }
@@ -91,7 +95,9 @@ _fetch_iconArt_models() {
     mkdir -p "$scriptBundle"
     cd "$scriptBundle"
 
-    rm -f "$scriptBundle"/*
+    rm -f "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors
+    rm -f "$scriptBundle"/animagine-xl-3.1.safetensors
+    rm -f "$scriptBundle"/FEGBA-Sprites-illus_Fp.safetensors
 
 
     # WARNING: Files that are not substantially more useful for a mainstream essential purpose (eg. icons, clip art) than other files here WILL BE REMOVED .
@@ -109,17 +115,19 @@ _fetch_iconArt_models() {
 
     # noobaiXLNAIXL_epsilonPred05Version, Version: f2.0.1v1.10.1-previous-501-g668e87f9
     #_messagePlain_request https://civitai.com/models/833294?modelVersionId=968495
-    #! _aria2c_iconArt "https://huggingface.co/nnnn1111/models/resolve/main/noobaiXLNAIXL_epsilonPred05Version.safetensors" "noobaiXLNAIXL_epsilonPred05Version.safetensors" && _messageFAIL
-    ! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "" "noobaiXLNAIXL_epsilonPred05Version.safetensors" && _messageFAIL
-    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "internal" "noobaiXLNAIXL_epsilonPred05Version.safetensors" && _messageFAIL
+    [[ ! -e "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors ]] && ! _aria2c_iconArt "https://huggingface.co/nnnn1111/models/resolve/main/noobaiXLNAIXL_epsilonPred05Version.safetensors" "noobaiXLNAIXL_epsilonPred05Version.safetensors" && rm -f "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors
+    #[[ ! -e "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors ]] && ! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "" "noobaiXLNAIXL_epsilonPred05Version.safetensors" && rm -f "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors
+    [[ ! -e "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors ]] && ! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "internal" "noobaiXLNAIXL_epsilonPred05Version.safetensors" && rm -f "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors
+    [[ ! -e "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors ]] && _messageFAIL
     
     # illustriousXL_v01, Version: f2.0.1v1.10.1-previous-501-g668e87f9
     #https://huggingface.co/OnomaAIResearch/Illustrious-xl-early-release-v0/blob/main/Illustrious-XL-v0.1.safetensors
 
     # animagineXLV31_v31, Version: f2.0.1v1.10.1-previous-501-g668e87f9, Model hash: cedf157a80
-    ! _aria2c_iconArt "https://huggingface.co/cagliostrolab/animagine-xl-3.1/resolve/main/animagine-xl-3.1.safetensors" "animagine-xl-3.1.safetensors" && _messageFAIL
-    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "" "animagine-xl-3.1.safetensors" && _messageFAIL
-    #! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "internal" "animagine-xl-3.1.safetensors" && _messageFAIL
+    [[ ! -e "$scriptBundle"/animagine-xl-3.1.safetensors ]] && ! _aria2c_iconArt "https://huggingface.co/cagliostrolab/animagine-xl-3.1/resolve/main/animagine-xl-3.1.safetensors" "animagine-xl-3.1.safetensors" && rm -f "$scriptBundle"/animagine-xl-3.1.safetensors
+    #[[ ! -e "$scriptBundle"/animagine-xl-3.1.safetensors ]] && ! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "" "animagine-xl-3.1.safetensors" && rm -f "$scriptBundle"/animagine-xl-3.1.safetensors
+    [[ ! -e "$scriptBundle"/animagine-xl-3.1.safetensors ]] && ! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "internal" "animagine-xl-3.1.safetensors" && rm -f "$scriptBundle"/animagine-xl-3.1.safetensors
+    [[ ! -e "$scriptBundle"/animagine-xl-3.1.safetensors ]] && _messageFAIL
     
 
     # FEGBA-Sprites-illus_Fp
@@ -202,7 +210,11 @@ _join_file_iconArt() {
     cd "$functionEntryPWD"
 }
 _aria2c_iconArt() {
-    aria2c --log=- --log-level=info -x "3" -o "$2" "$1"
+    aria2c --log=- --log-level=info -x "3" -o "$2" "$1" --async-dns=false
+    [[ "$? " == "0" ]] && [[ -e "$2" ]] && return 0
+    [[ ! -e "$2" ]] && aria2c --log=- --log-level=info -x "3" -o "$2" "$1" --disable-ipv6=true --async-dns=false
+    [[ "$? " == "0" ]] && [[ -e "$2" ]] && return 0
+    return 1
 }
 
 # WARNING: Do NOT use. Apparently 'gh', while normally available on other ubcp/Cygwin/MSW systems, is not available this way under GitHub Actions MSWindows Runners.
