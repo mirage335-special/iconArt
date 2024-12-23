@@ -36,7 +36,7 @@ _ub_cksum_special_derivativeScripts_contents() {
 #export ub_setScriptChecksum_disable='true'
 ( [[ -e "$0".nck ]] || [[ "${BASH_SOURCE[0]}" != "${0}" ]] || [[ "$1" == '--profile' ]] || [[ "$1" == '--script' ]] || [[ "$1" == '--call' ]] || [[ "$1" == '--return' ]] || [[ "$1" == '--devenv' ]] || [[ "$1" == '--shell' ]] || [[ "$1" == '--bypass' ]] || [[ "$1" == '--parent' ]] || [[ "$1" == '--embed' ]] || [[ "$1" == '--compressed' ]] || [[ "$0" == "/bin/bash" ]] || [[ "$0" == "-bash" ]] || [[ "$0" == "/usr/bin/bash" ]] || [[ "$0" == "bash" ]] ) && export ub_setScriptChecksum_disable='true'
 export ub_setScriptChecksum_header='2591634041'
-export ub_setScriptChecksum_contents='824618657'
+export ub_setScriptChecksum_contents='2038574458'
 
 # CAUTION: Symlinks may cause problems. Disable this test for such cases if necessary.
 # WARNING: Performance may be crucial here.
@@ -46339,8 +46339,8 @@ _fetch_iconArt_models() {
 
     # noobaiXLNAIXL_epsilonPred05Version, Version: f2.0.1v1.10.1-previous-501-g668e87f9
     #_messagePlain_request https://civitai.com/models/833294?modelVersionId=968495
-    [[ ! -e "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors ]] && ! _aria2c_iconArt "https://huggingface.co/nnnn1111/models/resolve/main/noobaiXLNAIXL_epsilonPred05Version.safetensors" "noobaiXLNAIXL_epsilonPred05Version.safetensors" && rm -f "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors
-    #[[ ! -e "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors ]] && ! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "" "noobaiXLNAIXL_epsilonPred05Version.safetensors" && rm -f "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors
+    #[[ ! -e "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors ]] && ! _aria2c_iconArt "https://huggingface.co/nnnn1111/models/resolve/main/noobaiXLNAIXL_epsilonPred05Version.safetensors" "noobaiXLNAIXL_epsilonPred05Version.safetensors" && rm -f "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors
+    ##[[ ! -e "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors ]] && ! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "" "noobaiXLNAIXL_epsilonPred05Version.safetensors" && rm -f "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors
     [[ ! -e "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors ]] && ! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "internal" "noobaiXLNAIXL_epsilonPred05Version.safetensors" && rm -f "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors
     [[ ! -e "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors ]] && _messageFAIL
     
@@ -46348,8 +46348,8 @@ _fetch_iconArt_models() {
     #https://huggingface.co/OnomaAIResearch/Illustrious-xl-early-release-v0/blob/main/Illustrious-XL-v0.1.safetensors
 
     # animagineXLV31_v31, Version: f2.0.1v1.10.1-previous-501-g668e87f9, Model hash: cedf157a80
-    [[ ! -e "$scriptBundle"/animagine-xl-3.1.safetensors ]] && ! _aria2c_iconArt "https://huggingface.co/cagliostrolab/animagine-xl-3.1/resolve/main/animagine-xl-3.1.safetensors" "animagine-xl-3.1.safetensors" && rm -f "$scriptBundle"/animagine-xl-3.1.safetensors
-    #[[ ! -e "$scriptBundle"/animagine-xl-3.1.safetensors ]] && ! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "" "animagine-xl-3.1.safetensors" && rm -f "$scriptBundle"/animagine-xl-3.1.safetensors
+    #[[ ! -e "$scriptBundle"/animagine-xl-3.1.safetensors ]] && ! _aria2c_iconArt "https://huggingface.co/cagliostrolab/animagine-xl-3.1/resolve/main/animagine-xl-3.1.safetensors" "animagine-xl-3.1.safetensors" && rm -f "$scriptBundle"/animagine-xl-3.1.safetensors
+    ##[[ ! -e "$scriptBundle"/animagine-xl-3.1.safetensors ]] && ! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "" "animagine-xl-3.1.safetensors" && rm -f "$scriptBundle"/animagine-xl-3.1.safetensors
     [[ ! -e "$scriptBundle"/animagine-xl-3.1.safetensors ]] && ! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "internal" "animagine-xl-3.1.safetensors" && rm -f "$scriptBundle"/animagine-xl-3.1.safetensors
     [[ ! -e "$scriptBundle"/animagine-xl-3.1.safetensors ]] && _messageFAIL
     
