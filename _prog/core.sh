@@ -25,6 +25,7 @@ _fetch_iconArt_forge() {
     ! [[ -e webui_forge_cu121_torch231.7z ]] && ! _aria2c_iconArt "https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z" "webui_forge_cu121_torch231.7z" && _fetch_iconArt_forge-rm
     #! [[ -e webui_forge_cu121_torch231.7z ]] && ! _wget_githubRelease "lllyasviel/stable-diffusion-webui-forge" "" "webui_forge_cu121_torch231.7z" && _fetch_iconArt_forge-rm
     ! [[ -e webui_forge_cu121_torch231.7z ]] && ! wget 'https://github.com/lllyasviel/stable-diffusion-webui-forge/releases/download/latest/webui_forge_cu121_torch231.7z' && _fetch_iconArt_forge-rm
+    ! [[ -s webui_forge_cu121_torch231.7z ]] && _fetch_iconArt_forge-rm
     ! [[ -e webui_forge_cu121_torch231.7z ]] && _messageFAIL
 
     # May be possible to splice this git repository with a release of A1111/Forge for MSWindows .
@@ -118,6 +119,7 @@ _fetch_iconArt_models() {
     #[[ ! -e "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors ]] && ! _aria2c_iconArt "https://huggingface.co/nnnn1111/models/resolve/main/noobaiXLNAIXL_epsilonPred05Version.safetensors" "noobaiXLNAIXL_epsilonPred05Version.safetensors" && rm -f "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors
     ##[[ ! -e "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors ]] && ! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "" "noobaiXLNAIXL_epsilonPred05Version.safetensors" && rm -f "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors
     [[ ! -e "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors ]] && ! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "internal" "noobaiXLNAIXL_epsilonPred05Version.safetensors" && rm -f "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors
+    [[ ! -s "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors ]] && rm -f "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors
     [[ ! -e "$scriptBundle"/noobaiXLNAIXL_epsilonPred05Version.safetensors ]] && _messageFAIL
     
     # illustriousXL_v01, Version: f2.0.1v1.10.1-previous-501-g668e87f9
@@ -127,6 +129,7 @@ _fetch_iconArt_models() {
     #[[ ! -e "$scriptBundle"/animagine-xl-3.1.safetensors ]] && ! _aria2c_iconArt "https://huggingface.co/cagliostrolab/animagine-xl-3.1/resolve/main/animagine-xl-3.1.safetensors" "animagine-xl-3.1.safetensors" && rm -f "$scriptBundle"/animagine-xl-3.1.safetensors
     ##[[ ! -e "$scriptBundle"/animagine-xl-3.1.safetensors ]] && ! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "" "animagine-xl-3.1.safetensors" && rm -f "$scriptBundle"/animagine-xl-3.1.safetensors
     [[ ! -e "$scriptBundle"/animagine-xl-3.1.safetensors ]] && ! "$scriptAbsoluteLocation" _wget_githubRelease_join "mirage335-special/iconArt_bundle" "internal" "animagine-xl-3.1.safetensors" && rm -f "$scriptBundle"/animagine-xl-3.1.safetensors
+    [[ ! -s "$scriptBundle"/animagine-xl-3.1.safetensors ]] && rm -f "$scriptBundle"/animagine-xl-3.1.safetensors
     [[ ! -e "$scriptBundle"/animagine-xl-3.1.safetensors ]] && _messageFAIL
     
 
